@@ -19,7 +19,7 @@ third_digit = 0;
 while (third_digit <= 9)
 {
 if (first_digit < second_digit &&
-    second_digit < third_digit)
+second_digit < third_digit)
 {
 putchar(first_digit + '0');
 putchar(second_digit + '0');
