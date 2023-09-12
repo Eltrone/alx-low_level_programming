@@ -6,10 +6,11 @@
  * @b: int b
  * Return: int add a , b
  */
+
 int add(int a, int b)
 {
-    int result = 0;
+	int result = 0;
 
-    result = a + b;
-    return (result);
+	result = a + b;
+	return (result);
 }
