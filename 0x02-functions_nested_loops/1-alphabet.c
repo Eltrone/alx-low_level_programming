@@ -5,6 +5,7 @@
  * in lowercase, followed by a new line
  * Return: no return.
  */
+
 void print_alphabet(void)
 {
   char c;
