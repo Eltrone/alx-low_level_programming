@@ -1,4 +1,3 @@
-6-puts2.c
 #include "main.h"
 
 /**
