@@ -1,59 +1,52 @@
 #include "main.h"
-
 /**
-* infinite_add - Adds two numbers
-* @n1: The first number
-* @n2: The second number
-* @r: The buffer to store the result
-* @size_r: The buffer size
-*
-* Return: A pointer to the result or 0 if it cannot be stored
-*/
+ * infinite_add - a function that adds two numbers
+ * local variable declaration
+ * @n1: first number
+ * @n2: second number
+ * @r: result
+ * @size_r: result lenght
+ * Return: sum
+ */
+
 char *infinite_add(char *n1, char *n2, char *r, int size_r)
 {
-	int i, j, k, l, m, n, carry = 0, sum;
+	/* Local variable declaration */
+	int i = 0, j = 0, k, l = 0, f, s, d = 0;
 
-	for (i = 0; n1[i] != '\0'; i++)
-		;
-	for (j = 0; n2[j] != '\0'; j++)
-		;
-
-	if (size_r <= i + 2 || size_r <= j + 2)
+	while (n1[i] != '\0')
+		i++;
+	while (n2[j] != '\0')
+		j++;
+	if (i > j)
+		l = i;
+	else
+		l = j;
+	if (l + 1 > size_r)
 		return (0);
-
-	k = 0;
-	i--;
-	j--;
-	while (i >= 0 || j >= 0 || carry > 0)
+	r[l] = '\0';
+	for (k = l - 1 ; k >= 0 ; k--)
 	{
-		m = (i >= 0) ? n1[i] - '0' : 0;
-		n = (j >= 0) ? n2[j] - '0' : 0;
-
-		sum = m + n + carry;
-		if (sum > 9)
-		{
-			r[k] = (sum % 10) + '0';
-			carry = 1;
-		}
-		else
-		{
-			r[k] = sum + '0';
-			carry = 0;
-		}
-		k++;
 		i--;
 		j--;
+		if (i >= 0)
+			f = n1[i] - '0';
+		else
+			f = 0;
+		if (j >= 0)
+			s = n2[j] - '0';
+		else
+			s = 0;
+		r[k] = (f + s + d) % 10 + '0';
+		d = (f + s + d) / 10;
 	}
-
-	r[k] = '\0';
-
-	// Inversion de la chaîne
-	for (l = 0, m = k - 1; l < k / 2; l++, m--)
+	if (d == 1)
 	{
-		char temp = r[l];
-		r[l] = r[m];
-		r[m] = temp;
+		r[l + 1] = '\0';
+		if (l + 2 > size_r)
+			return (0);
+		while (l-- >= 0)
+			r[l + 1] = r[l];
+		r[0] = d + '0';
 	}
-
-	return (r);
-}
+	return (r);}
