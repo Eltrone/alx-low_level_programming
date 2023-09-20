@@ -5,7 +5,7 @@
 *@s1: First string
 *@s2: Second string
 *
-*Return: 
+*Return:
 * 0 if s1 and s2 are equal
 * A positive value if s1 > s2
 * A negative value if s1 < s2
@@ -18,5 +18,5 @@ int _strcmp(char *s1, char *s2)
 		s2++;
 	}
 
-	return (int)(*s1) - (int)(*s2);
+	return ((int)(*s1) - (int)(*s2));
 }
