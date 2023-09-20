@@ -47,6 +47,7 @@ char *infinite_add(char *n1, char *n2, char *r, int size_r)
 
 	r[k] = '\0';
 
+	// Inversion de la chaîne
 	for (l = 0, m = k - 1; l < k / 2; l++, m--)
 	{
 		char temp = r[l];
