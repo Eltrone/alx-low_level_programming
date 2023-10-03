@@ -2,10 +2,10 @@
 #include <stdlib.h>
 
 /**
- * wordcount - Count the number of words in a string
- * @str: The string to count
- * Return: The number of words in the string
- */
+* wordcount - Count the number of words in a string
+* @str: The string to count
+* Return: The number of words in the string
+*/
 int wordcount(char *str)
 {
 	int i, count = 0;
@@ -17,10 +17,10 @@ int wordcount(char *str)
 }
 
 /**
- * strtow - Splits a string into words
- * @str: The string to split
- * Return: Pointer to an array of strings (words)
- */
+* strtow - Splits a string into words
+* @str: The string to split
+* Return: Pointer to an array of strings (words)
+*/
 char **strtow(char *str)
 {
 	int i, j, k, l, wcount;
