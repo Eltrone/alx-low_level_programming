@@ -2,39 +2,59 @@
 #include <stdlib.h>
 
 /**
-* str_concat - Concatenates two strings.
-* @s1: The first string.
-* @s2: The second string.
-*
-* Return: If s1 == NULL, s2 == NULL, or the function fails - NULL.
-*         Otherwise - a pointer to the concatenated space in memory.
-*/
-char *str_concat(char *s1, char *s2)
+ * wordcount - Count the number of words in a string
+ * @str: The string to count
+ * Return: The number of words in the string
+ */
+int wordcount(char *str)
 {
-	char *concat;
-	int i, j, len1 = 0, len2 = 0;
+	int i, count = 0;
 
-	if (s1 == NULL)
-		s1 = "";
-	if (s2 == NULL)
-		s2 = "";
+	for (i = 0; str[i]; i++)
+		if ((str[i] != ' ' && str[i + 1] == ' ') || (str[i] != ' ' && str[i + 1] == '\0'))
+			count++;
+	return (count);
+}
 
-	for (i = 0; s1[i]; i++)
-		len1++;
-	for (i = 0; s2[i]; i++)
-		len2++;
+/**
+ * strtow - Splits a string into words
+ * @str: The string to split
+ * Return: Pointer to an array of strings (words)
+ */
+char **strtow(char *str)
+{
+	int i, j, k, l, wcount;
+	char **s;
 
-	concat = malloc(sizeof(char) * (len1 + len2 + 1));
-
-	if (concat == NULL)
+	if (str == NULL || *str == '\0')
 		return (NULL);
 
-	for (i = 0; s1[i]; i++)
-		concat[i] = s1[i];
-	for (j = 0; s2[j]; j++)
-		concat[i + j] = s2[j];
+	wcount = wordcount(str);
+	if (wcount == 0)
+		return (NULL);
 
-	concat[len1 + len2] = '\0';
+	s = malloc((wcount + 1) * sizeof(char *));
+	if (s == NULL)
+		return (NULL);
 
-	return (concat);
+	for (i = 0, k = 0; i < wcount; i++)
+	{
+		while (str[k] == ' ')
+			k++;
+		for (j = k; str[j] != ' ' && str[j] != '\0'; j++)
+			;
+		s[i] = malloc((j - k + 1) * sizeof(char));
+		if (s[i] == NULL)
+		{
+			while (i >= 0)
+				free(s[--i]);
+			free(s);
+			return (NULL);
+		}
+		for (l = 0; k < j; k++, l++)
+			s[i][l] = str[k];
+		s[i][l] = '\0';
+	}
+	s[i] = NULL;
+	return (s);
 }

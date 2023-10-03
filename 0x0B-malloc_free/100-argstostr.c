@@ -2,28 +2,34 @@
 #include <stdlib.h>
 
 /**
-* create_array - Creates an array of chars, initialized with a specific char.
-* @size: The size of the array.
-* @c: The character to initialize the array with.
-*
-* Return: If size == 0 or the function fails - NULL.
-*         Otherwise - a pointer to the array.
+* argstostr - Concatenates all arguments of your program
+* @ac: Argument count
+* @av: Argument vector
+* Return: pointer to new string, or NULL if fails
 */
-char *create_array(unsigned int size, char c)
+char *argstostr(int ac, char **av)
 {
-	unsigned int i;
-	char *array;
+	int i, j, k = 0, len = 0;
+	char *s;
 
-	if (size == 0)
+	if (ac == 0 || av == NULL)
 		return (NULL);
 
-	array = malloc(sizeof(char) * size);
+	for (i = 0; i < ac; i++)
+		for (j = 0; av[i][j]; j++)
+			len++;
 
-	if (array == NULL)
+	s = malloc(len + ac + 1);
+	if (s == NULL)
 		return (NULL);
 
-	for (i = 0; i < size; i++)
-		array[i] = c;
+	for (i = 0; i < ac; i++)
+	{
+		for (j = 0; av[i][j]; j++)
+			s[k++] = av[i][j];
+		s[k++] = '\n';
+	}
+	s[k] = '\0';
 
-	return (array);
+	return (s);
 }
