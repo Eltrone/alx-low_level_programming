@@ -1,10 +1,7 @@
 #include "main.h"
 #include <stdlib.h>
 #include <stdio.h>
-
-void errors(void);
-int is_digit(char *s);
-int _strlen(char *s);
+#define ERR_MSG "Error"
 
 /**
 * main - Entry point, multiplies two numbers
