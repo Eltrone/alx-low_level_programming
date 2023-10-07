@@ -49,7 +49,7 @@ void print_error(void)
 */
 int main(int argc, char *argv[])
 {
-	int num1, num2, result;
+	long long num1, num2, result;
 
 	if (argc != 3)
 		print_error();
@@ -57,11 +57,11 @@ int main(int argc, char *argv[])
 	if (!is_number(argv[1]) || !is_number(argv[2]))
 		print_error();
 
-	num1 = atoi(argv[1]);
-	num2 = atoi(argv[2]);
+	num1 = atoll(argv[1]);
+	num2 = atoll(argv[2]);
 	result = num1 * num2;
 
-	printf("%d\n", result);
+	printf("%lld\n", result);
 
 	return (0);
-
+}
