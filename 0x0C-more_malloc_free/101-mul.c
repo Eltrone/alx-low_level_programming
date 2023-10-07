@@ -1,35 +1,50 @@
 #include "main.h"
-#include <stdio.h>
 #include <stdlib.h>
 
 /**
-* main - Multiplies two positive numbers
-* @argc: Number of arguments
-* @argv: Array of arguments
-*
-* Return: 0 on success, 98 on error
+* main - multiplies two numbers
+* @argc: argument count
+* @argv: argument vector
+* Return: 0 if successful, 98 otherwise
 */
 int main(int argc, char *argv[])
 {
-	long num1, num2, product;
-
-	if (argc != 3)
+	if (argc != 3 || !is_number(argv[1]) || !is_number(argv[2]))
 	{
-		printf("Error\n");
+		_putchar('E');
+		_putchar('r');
+		_putchar('r');
+		_putchar('o');
+		_putchar('r');
+		_putchar('\n');
 		exit(98);
 	}
-
-	num1 = atol(argv[1]);
-	num2 = atol(argv[2]);
-
-	if (num1 == 0 || num2 == 0)
-	{
-		printf("Error\n");
-		exit(98);
-	}
-
-	product = num1 * num2;
-	printf("%ld\n", product);
-
+	multiply(argv[1], argv[2]);
 	return (0);
+}
+
+/**
+* is_number - checks if a string is a number
+* @s: string to check
+* Return: 1 if s is a number, 0 otherwise
+*/
+int is_number(char *s)
+{
+	while (*s)
+	{
+		if (!(*s >= '0' && *s <= '9'))
+			return (0);
+		s++;
+	}
+	return (1);
+}
+
+/**
+* multiply - multiplies two numbers and prints the result
+* @num1: first number
+* @num2: second number
+*/
+void multiply(char *num1, char *num2)
+{
+	/* Your multiplication logic here */
 }
