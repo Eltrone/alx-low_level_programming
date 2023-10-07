@@ -1,13 +1,57 @@
 #include "main.h"
 #include <stdlib.h>
-#include <stdio.h>
-#define ERR_MSG "Error"
 
 /**
-* main - Entry point, multiplies two numbers
-* @argc: Argument count
-* @argv: Argument vector
-* Return: 0 if successful, 98 otherwise
+* is_digit - checks if a string contains a non-digit char
+* @s: string to be evaluated
+* Return: 0 if a non-digit is found, 1 otherwise
+*/
+int is_digit(char *s)
+{
+	int i = 0;
+	while (s[i])
+	{
+		if (s[i] < '0' || s[i] > '9')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+/**
+* _strlen - returns the length of a string
+* @s: string to evaluate
+* Return: the length of the string
+*/
+int _strlen(char *s)
+{
+	int i = 0;
+	while (s[i] != '\0')
+	{
+		i++;
+	}
+	return (i);
+}
+
+/**
+* errors - handles errors for main
+*/
+void errors(void)
+{
+	_putchar('E');
+	_putchar('r');
+	_putchar('r');
+	_putchar('o');
+	_putchar('r');
+	_putchar('\n');
+	exit(98);
+}
+
+/**
+* main - multiplies two positive numbers
+* @argc: number of arguments
+* @argv: array of arguments
+* Return: always 0 (Success)
 */
 int main(int argc, char *argv[])
 {
@@ -16,7 +60,6 @@ int main(int argc, char *argv[])
 
 	num1 = argv[1];
 	num2 = argv[2];
-
 	if (argc != 3 || !is_digit(num1) || !is_digit(num2))
 		errors();
 
@@ -26,7 +69,7 @@ int main(int argc, char *argv[])
 
 	result = malloc(sizeof(int) * len);
 	if (!result)
-		return (1);
+		errors();
 
 	for (i = 0; i <= len1 + len2; i++)
 		result[i] = 0;
@@ -62,54 +105,4 @@ int main(int argc, char *argv[])
 	_putchar('\n');
 	free(result);
 	return (0);
-}
-
-/**
-* is_digit - Checks if a string is a number
-* @s: The string to check
-* Return: 1 if the string is a number, 0 otherwise
-*/
-int is_digit(char *s)
-{
-	while (*s)
-	{
-		if (*s < '0' || *s > '9')
-			return (0);
-		s++;
-	}
-	return (1);
-}
-
-/**
-* _strlen - returns the length of a string
-* @s: string to evaluate
-* Return: the length of the string
-*/
-int _strlen(char *s)
-{
-	int i = 0;
-
-	while (s[i] != '\0')
-	{
-		i++;
-	}
-	return (i);
-}
-
-/**
-* errors - handles errors for main
-*/
-void errors(void)
-{
-	printf("Error\n");
-	exit(98);
-}
-
-/**
-* _putchar - Writes a character to stdout
-* @c: The character to print
-*/
-void _putchar(char c)
-{
-	write(1, &c, 1);
 }
