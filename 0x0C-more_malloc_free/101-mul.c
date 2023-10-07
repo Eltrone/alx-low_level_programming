@@ -1,20 +1,28 @@
-#include "main.h"
 #include <stdlib.h>
-#include <stdio.h>
-#define ERR_MSG "Error"
+#include <unistd.h>
+#include "main.h"
 
 /**
-* is_digit - Verifies if all characters in a string are digits
-* @s: The string to check
-*
+* _putchar - writes the character c to stdout
+* @c: The character to print
+*/
+void _putchar(char c)
+{
+	write(1, &c, 1);
+}
+
+/**
+* is_digit - checks if a string is a digit
+* @str: string to check
 * Return: 1 if all characters are digits, 0 otherwise
 */
-int is_digit(char *s)
+int is_digit(char *str)
 {
 	int i = 0;
-	while (s[i])
+
+	while (str[i])
 	{
-		if (s[i] < '0' || s[i] > '9')
+		if (str[i] < '0' || str[i] > '9')
 			return (0);
 		i++;
 	}
@@ -22,82 +30,82 @@ int is_digit(char *s)
 }
 
 /**
-* _strlen - Calculates the length of a given string
-* @s: The string whose length is to be calculated
-*
-* Return: The length of the string
+* multiply - multiplies two numbers and prints the result
+* @num1: first number as a string
+* @num2: second number as a string
 */
-int _strlen(char *s)
+void multiply(char *num1, char *num2)
 {
-	int i = 0;
+	int len1 = 0, len2 = 0, i, j;
+	int *result;
 
-	while (s[i] != '\0')
-	{
-		i++;
-	}
-	return (i);
-}
+	while (num1[len1])
+		len1++;
+	while (num2[len2])
+		len2++;
 
-/**
-* errors - Manages error handling for the main function
-*/
-void errors(void)
-{
-	printf("Error\n");
-	exit(98);
-}
-
-/**
-* main - Multiplies two positive integers
-* @argc: The number of command line arguments
-* @argv: The command line arguments
-*
-* Return: 0 on success
-*/
-int main(int argc, char *argv[])}
-{
-	char *s1, *s2;
-	int len1, len2, len, i, carry, digit1, digit2, *result, a = 0;
-	s1 = argv[1], s2 = argv[2];
-	if (argc != 3 || !is_digit(s1) || !is_digit(s2))
-	errors();
-	len1 = _strlen(s1);
-	len2 = _strlen(s2);
-	len = len1 + len2 + 1;
-	result = malloc(sizeof(int) * len);
-
+	result = malloc((len1 + len2) * sizeof(int));
 	if (!result)
-		return (1);
-	for (i = 0; i <= len1 + len2; i++)
+		exit(98);
+
+	for (i = 0; i < len1 + len2; i++)
 		result[i] = 0;
-	for (len1 = len1 - 1; len1 >= 0; len1--)
+
+	for (i = len1 - 1; i >= 0; i--)
 	{
-	digit1 = s1[len1] - '0';
-	carry = 0;
-	for (len2 = _strlen(s2) - 1; len2 >= 0; len2--)
-	{
-	digit2 = s2[len2] - '0';
-	carry += result[len1 + len2 + 1] + (digit1 * digit2);
-	result[len1 + len2 + 1] = carry % 10;
-	carry /= 10;
+		int carry = 0;
+		int n1 = num1[i] - '0';
+
+		for (j = len2 - 1; j >= 0; j--)
+		{
+			int n2 = num2[j] - '0';
+			int sum = n1 * n2 + result[i + j + 1] + carry;
+
+			carry = sum / 10;
+			result[i + j + 1] = sum % 10;
+		}
+		result[i] += carry;
 	}
 
-	if (carry > 0)
-	result[len1 + len2 + 1] += carry;
-	}
-
-	for (i = 0; i < len - 1; i++)
+	for (i = 0; i < len1 + len2; i++)
 	{
-		if (result[i])
-			a = 1;
-		if (a)
-			_putchar(result[i] + '0');
+		if (i == 0 && result[i] == 0)
+			continue;
+		_putchar(result[i] + '0');
 	}
-
-	if (!a)
-		_putchar('0');
-
 	_putchar('\n');
+
 	free(result);
+}
+
+/**
+* main - Entry point, multiplies two numbers
+* @argc: Argument count
+* @argv: Argument vector
+* Return: 0 on success, 98 on error
+*/
+int main(int argc, char *argv[])
+{
+	if (argc != 3)
+	{
+		_putchar('E');
+		_putchar('r');
+		_putchar('r');
+		_putchar('o');
+		_putchar('r');
+		_putchar('\n');
+		exit(98);
+	}
+	if (!is_digit(argv[1]) || !is_digit(argv[2]))
+	{
+		_putchar('E');
+		_putchar('r');
+		_putchar('r');
+		_putchar('o');
+		_putchar('r');
+		_putchar('\n');
+		exit(98);
+	}
+	multiply(argv[1], argv[2]);
 	return (0);
 }
