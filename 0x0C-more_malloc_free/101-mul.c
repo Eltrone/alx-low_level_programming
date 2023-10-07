@@ -1,72 +1,73 @@
 #include "main.h"
-#include <stdio.h>
 #include <stdlib.h>
 
 /**
-* is_digit - vérifie si une chaîne est un nombre
-* @s: la chaîne à vérifier
-* Return: 1 si vrai, 0 sinon
+* is_digit - Check if a string is composed of digits.
+* @str: The input string.
+* Return: 1 if composed of digits, 0 otherwise.
 */
-int is_digit(char *s)
+int is_digit(char *str)
 {
-	while (*s)
+	while (*str)
 	{
-		if (*s < '0' || *s > '9')
+		if (*str < '0' || *str > '9')
 			return (0);
-		s++;
+		str++;
 	}
 	return (1);
 }
 
 /**
-* main - Multiplie deux nombres
-* @argc: Nombre d'arguments
-* @argv: Tableau d'arguments
-* Return: 0 en cas de succès, 98 en cas d'erreur
+* main - Entry point
+* @argc: The number of command-line arguments.
+* @argv: An array of command-line argument strings.
+* Return: 0 if successful, 98 if incorrect arguments or input not composed of digits.
 */
 int main(int argc, char *argv[])
 {
-	int i, j, carry, len1, len2;
-	int *result;
-	char *num1, *num2;
-
 	if (argc != 3 || !is_digit(argv[1]) || !is_digit(argv[2]))
 	{
 		printf("Error\n");
-		exit(98);
+		return (98);
 	}
 
-	num1 = argv[1];
-	num2 = argv[2];
-	len1 = strlen(num1);
-	len2 = strlen(num2);
+	char *num1 = argv[1];
+	char *num2 = argv[2];
+	int len1 = strlen(num1);
+	int len2 = strlen(num2);
+	int len_result = len1 + len2;
+	int *result = calloc(len_result, sizeof(int));
 
-	result = calloc(len1 + len2, sizeof(int));
-	if (!result)
+	if (result == NULL)
 	{
 		printf("Error\n");
-		exit(98);
+		return (98);
 	}
 
-	for (i = len1 - 1; i >= 0; i--)
+	/* Multiply the numbers */
+	for (int i = len1 - 1; i >= 0; i--)
 	{
-		carry = 0;
-		for (j = len2 - 1; j >= 0; j--)
+		for (int j = len2 - 1; j >= 0; j--)
 		{
-			int mul = (num1[i] - '0') * (num2[j] - '0') + carry;
-			carry = (mul + result[i + j + 1]) / 10;
-			result[i + j + 1] = (mul + result[i + j + 1]) % 10;
+			int product = (num1[i] - '0') * (num2[j] - '0');
+			int sum = result[i + j + 1] + product;
+			result[i + j + 1] = sum % 10;
+			result[i + j] += sum / 10;
 		}
-		result[i] += carry;
 	}
 
-	for (i = 0; i < len1 + len2; i++)
+	/* Skip leading zeros in the result */
+	int i = 0;
+	while (i < len_result - 1 && result[i] == 0)
+		i++;
+
+	/* Print the result */
+	while (i < len_result)
 	{
-		if (i == 0 && result[i] == 0)
-			continue;
-		printf("%d", result[i]);
+		_putchar(result[i] + '0');
+		i++;
 	}
-	printf("\n");
+	_putchar('\n');
 
 	free(result);
 	return (0);
