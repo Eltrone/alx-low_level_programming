@@ -9,12 +9,10 @@
 int is_digit(char *s)
 {
 	int i = 0;
+
 	while (s[i])
-	{
-		if (s[i] < '0' || s[i] > '9')
+		if (s[i] < '0' || s[i++] > '9')
 			return (0);
-		i++;
-	}
 	return (1);
 }
 
@@ -26,10 +24,9 @@ int is_digit(char *s)
 int _strlen(char *s)
 {
 	int i = 0;
-	while (s[i] != '\0')
-	{
+
+	while (s[i])
 		i++;
-	}
 	return (i);
 }
 
@@ -56,52 +53,35 @@ void errors(void)
 int main(int argc, char *argv[])
 {
 	char *num1, *num2;
-	int len1, len2, len, i, carry, digit1, digit2, *result, flag = 0;
+	int len1, len2, len, i, j, carry, *result, flag = 0;
 
-	num1 = argv[1];
-	num2 = argv[2];
-	if (argc != 3 || !is_digit(num1) || !is_digit(num2))
+	if (argc != 3 || !is_digit(argv[1]) || !is_digit(argv[2]))
 		errors();
-
-	len1 = _strlen(num1);
-	len2 = _strlen(num2);
+	num1 = argv[1], num2 = argv[2];
+	len1 = _strlen(num1), len2 = _strlen(num2);
 	len = len1 + len2 + 1;
-
 	result = malloc(sizeof(int) * len);
 	if (!result)
 		errors();
-
 	for (i = 0; i <= len1 + len2; i++)
 		result[i] = 0;
-
-	for (len1 = len1 - 1; len1 >= 0; len1--)
+	for (i = len1 - 1; i >= 0; i--)
 	{
-		digit1 = num1[len1] - '0';
 		carry = 0;
-
-		for (len2 = _strlen(num2) - 1; len2 >= 0; len2--)
+		for (j = len2 - 1; j >= 0; j--)
 		{
-			digit2 = num2[len2] - '0';
-			carry += result[len1 + len2 + 1] + (digit1 * digit2);
-			result[len1 + len2 + 1] = carry % 10;
+			carry += result[i + j + 1] + ((num1[i] - '0') * (num2[j] - '0'));
+			result[i + j + 1] = carry % 10;
 			carry /= 10;
 		}
-
-		if (carry > 0)
-			result[len1 + len2 + 1] += carry;
+		if (carry)
+			result[i + j + 1] += carry;
 	}
-
 	for (i = 0; i < len - 1; i++)
-	{
 		if (result[i])
-			flag = 1;
-		if (flag)
-			_putchar(result[i] + '0');
-	}
-
+			flag = 1, _putchar(result[i] + '0');
 	if (!flag)
 		_putchar('0');
-
 	_putchar('\n');
 	free(result);
 	return (0);
