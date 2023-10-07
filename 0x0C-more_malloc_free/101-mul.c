@@ -1,68 +1,61 @@
-#include <stdlib.h>
-#include <unistd.h>
 #include "main.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 /**
-* _putchar - writes the character c to stdout
-* @c: The character to print
+* is_digit - vérifie si une chaîne est un nombre
+* @s: la chaîne à vérifier
+* Return: 1 si vrai, 0 sinon
 */
-void _putchar(char c)
+int is_digit(char *s)
 {
-	write(1, &c, 1);
-}
-
-/**
-* is_digit - checks if a string is a digit
-* @str: string to check
-* Return: 1 if all characters are digits, 0 otherwise
-*/
-int is_digit(char *str)
-{
-	int i = 0;
-
-	while (str[i])
+	while (*s)
 	{
-		if (str[i] < '0' || str[i] > '9')
+		if (*s < '0' || *s > '9')
 			return (0);
-		i++;
+		s++;
 	}
 	return (1);
 }
 
 /**
-* multiply - multiplies two numbers and prints the result
-* @num1: first number as a string
-* @num2: second number as a string
+* main - Multiplie deux nombres
+* @argc: Nombre d'arguments
+* @argv: Tableau d'arguments
+* Return: 0 en cas de succès, 98 en cas d'erreur
 */
-void multiply(char *num1, char *num2)
+int main(int argc, char *argv[])
 {
-	int len1 = 0, len2 = 0, i, j;
+	int i, j, carry, len1, len2;
 	int *result;
+	char *num1, *num2;
 
-	while (num1[len1])
-		len1++;
-	while (num2[len2])
-		len2++;
-
-	result = malloc((len1 + len2) * sizeof(int));
-	if (!result)
+	if (argc != 3 || !is_digit(argv[1]) || !is_digit(argv[2]))
+	{
+		printf("Error\n");
 		exit(98);
+	}
 
-	for (i = 0; i < len1 + len2; i++)
-		result[i] = 0;
+	num1 = argv[1];
+	num2 = argv[2];
+	len1 = strlen(num1);
+	len2 = strlen(num2);
+
+	result = calloc(len1 + len2, sizeof(int));
+	if (!result)
+	{
+		printf("Error\n");
+		exit(98);
+	}
 
 	for (i = len1 - 1; i >= 0; i--)
 	{
-		int carry = 0;
-		int n1 = num1[i] - '0';
-
+		carry = 0;
 		for (j = len2 - 1; j >= 0; j--)
 		{
-			int n2 = num2[j] - '0';
-			int sum = n1 * n2 + result[i + j + 1] + carry;
-
-			carry = sum / 10;
-			result[i + j + 1] = sum % 10;
+			int mul = (num1[i] - '0') * (num2[j] - '0') + carry;
+			carry = (mul + result[i + j + 1]) / 10;
+			result[i + j + 1] = (mul + result[i + j + 1]) % 10;
 		}
 		result[i] += carry;
 	}
@@ -71,41 +64,10 @@ void multiply(char *num1, char *num2)
 	{
 		if (i == 0 && result[i] == 0)
 			continue;
-		_putchar(result[i] + '0');
+		printf("%d", result[i]);
 	}
-	_putchar('\n');
+	printf("\n");
 
 	free(result);
-}
-
-/**
-* main - Entry point, multiplies two numbers
-* @argc: Argument count
-* @argv: Argument vector
-* Return: 0 on success, 98 on error
-*/
-int main(int argc, char *argv[])
-{
-	if (argc != 3)
-	{
-		_putchar('E');
-		_putchar('r');
-		_putchar('r');
-		_putchar('o');
-		_putchar('r');
-		_putchar('\n');
-		exit(98);
-	}
-	if (!is_digit(argv[1]) || !is_digit(argv[2]))
-	{
-		_putchar('E');
-		_putchar('r');
-		_putchar('r');
-		_putchar('o');
-		_putchar('r');
-		_putchar('\n');
-		exit(98);
-	}
-	multiply(argv[1], argv[2]);
 	return (0);
 }
