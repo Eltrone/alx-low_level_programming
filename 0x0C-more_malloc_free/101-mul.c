@@ -2,37 +2,15 @@
 #include <stdlib.h>
 
 /**
-* main - multiplies two numbers
-* @argc: argument count
-* @argv: argument vector
-* Return: 0 if successful, 98 otherwise
-*/
-int main(int argc, char *argv[])
-{
-	if (argc != 3 || !is_number(argv[1]) || !is_number(argv[2]))
-	{
-		_putchar('E');
-		_putchar('r');
-		_putchar('r');
-		_putchar('o');
-		_putchar('r');
-		_putchar('\n');
-		exit(98);
-	}
-	multiply(argv[1], argv[2]);
-	return (0);
-}
-
-/**
-* is_number - checks if a string is a number
-* @s: string to check
-* Return: 1 if s is a number, 0 otherwise
+* is_number - Checks if a string is a number
+* @s: The string to check
+* Return: 1 if the string is a number, 0 otherwise
 */
 int is_number(char *s)
 {
 	while (*s)
 	{
-		if (!(*s >= '0' && *s <= '9'))
+		if (*s < '0' || *s > '9')
 			return (0);
 		s++;
 	}
@@ -40,11 +18,50 @@ int is_number(char *s)
 }
 
 /**
-* multiply - multiplies two numbers and prints the result
-* @num1: first number
-* @num2: second number
+* _putchar - Writes a character to stdout
+* @c: The character to print
+* Return: 1 on success, -1 on failure
 */
-void multiply(char *num1, char *num2)
+int _putchar(char c)
 {
-	/* Your multiplication logic here */
+	return (write(1, &c, 1));
 }
+
+/**
+* print_error - Prints an error message and exits
+*/
+void print_error(void)
+{
+	_putchar('E');
+	_putchar('r');
+	_putchar('r');
+	_putchar('o');
+	_putchar('r');
+	_putchar('\n');
+	exit(98);
+}
+
+/**
+* main - Multiplies two numbers
+* @argc: Argument count
+* @argv: Argument vector
+* Return: 0 if successful, 98 otherwise
+*/
+int main(int argc, char *argv[])
+{
+	int num1, num2, result;
+
+	if (argc != 3)
+		print_error();
+
+	if (!is_number(argv[1]) || !is_number(argv[2]))
+		print_error();
+
+	num1 = atoi(argv[1]);
+	num2 = atoi(argv[2]);
+	result = num1 * num2;
+
+	printf("%d\n", result);
+
+	return (0);
+
