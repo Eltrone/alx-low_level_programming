@@ -3,10 +3,10 @@
 #include <stdio.h>
 
 /**
-* is_digit - Evaluates if the string contains only digits
-* @s: The string to be checked
+* is_digit - checks if a string contains a non-digit char
+* @s: string to be evaluated
 *
-* Return: 0 if a non-digit character is found, 1 otherwise
+* Return: 0 if a non-digit is found, 1 otherwise
 */
 int is_digit(char *s)
 {
@@ -22,10 +22,10 @@ int is_digit(char *s)
 }
 
 /**
-* _strlen - Calculates the length of a string
-* @s: The string to be evaluated
+* _strlen - returns the length of a string
+* @s: string to evaluate
 *
-* Return: Length of the string
+* Return: the length of the string
 */
 int _strlen(char *s)
 {
@@ -37,7 +37,7 @@ int _strlen(char *s)
 }
 
 /**
-* errors - Handles errors for the main function
+* errors - handles errors for main
 */
 void errors(void)
 {
@@ -46,29 +46,34 @@ void errors(void)
 }
 
 /**
-* multiply_and_print - Performs multiplication of two strings and prints result
-* @s1: First number as a string
-* @s2: Second number as a string
+* main - multiplies two positive numbers
+* @argc: number of arguments
+* @argv: array of arguments
+*
+* Return: always 0 (Success)
 */
-void multiply_and_print(char *s1, char *s2)
+int main(int argc, char *argv[])
 {
-	int len1, len2, len, i, *result, a = 0, carry = 0, digit1, digit2;
+	char *s1, *s2;
+	int len1, len2, len, i, j, carry, digit1, digit2, *result, a = 0;
 
+	if (argc != 3 || !is_digit(s1 = argv[1]) || !is_digit(s2 = argv[2]))
+		errors();
 	len1 = _strlen(s1);
 	len2 = _strlen(s2);
 	len = len1 + len2 + 1;
 	result = malloc(sizeof(int) * len);
 	if (!result)
-		exit(1);
+		return (1);
 
 	for (i = 0; i < len; i++)
 		result[i] = 0;
 
-	for (int i = len1 - 1; i >= 0; i--)
+	for (i = len1 - 1; i >= 0; i--)
 	{
 		digit1 = s1[i] - '0';
 		carry = 0;
-		for (int j = len2 - 1; j >= 0; j--)
+		for (j = len2 - 1; j >= 0; j--)
 		{
 			digit2 = s2[j] - '0';
 			carry += result[i + j + 1] + (digit1 * digit2);
@@ -76,7 +81,7 @@ void multiply_and_print(char *s1, char *s2)
 			carry /= 10;
 		}
 		if (carry > 0)
-			result[i] += carry;
+			result[i + j + 1] += carry;
 	}
 
 	for (i = 0; i < len; i++)
@@ -90,28 +95,5 @@ void multiply_and_print(char *s1, char *s2)
 		putchar('0');
 	putchar('\n');
 	free(result);
-}
-
-/**
-* main - Multiplies two positive numbers
-* @argc: Argument count
-* @argv: Argument array
-*
-* Return: Always 0 (Success)
-*/
-int main(int argc, char *argv[])
-{
-	char *s1, *s2;
-
-	if (argc != 3)
-		errors();
-
-	s1 = argv[1];
-	s2 = argv[2];
-
-	if (!is_digit(s1) || !is_digit(s2))
-		errors();
-
-	multiply_and_print(s1, s2);
 	return (0);
 }
