@@ -1,17 +1,13 @@
 #include <unistd.h>
 
 /**
-* _putchar - writes the string to stdout
-* @str: The string to print
-*/
-void _putchar(char *str)
+ * _putchar - writes the character c to stdout
+ * @c: The character to print
+ *
+ * Return: On success 1.
+ * On error, -1 is returned, and errno is set appropriately.
+ */
+int _putchar(char c)
 {
-	int i = 0;
-
-	while (str[i])
-	{
-		write(1, &str[i], 1);
-		i++;
-	}
-	write(1, "\n", 1);
+	return (write(1, &c, 1));
 }
