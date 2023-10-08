@@ -105,22 +105,6 @@ int _strlen(char *s)
 }
 
 /**
-* _putchar - writes the string to stdout
-* @str: The string to print
-*/
-void _putchar(char *str)
-{
-	int i = 0;
-
-	while (str[i])
-	{
-		write(1, &str[i], 1);
-		i++;
-	}
-	write(1, "\n", 1);
-}
-
-/**
 * error_exit - exits with status 98 and prints Error
 * Return: 98
 */
