@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
 	int len1, len2, lenr;
 
 	if (argc != 3)
-		return (error_exit(NULL));
+		return (error_exit());
 
 	num1 = argv[1];
 	num2 = argv[2];
@@ -22,10 +22,10 @@ int main(int argc, char *argv[])
 	lenr = len1 + len2 + 1;
 	result = malloc(lenr);
 	if (!result)
-		return (error_exit(NULL));
+		return (error_exit());
 
 	initialize_result(result, lenr);
-	multiply_numbers(num1, num2, result, len1, len2, lenr);
+	multiply_numbers(num1, num2, result, len1, len2);
 	print_result(result, lenr);
 
 	free(result);
@@ -53,22 +53,20 @@ void initialize_result(char *result, int lenr)
 * @result: Result array
 * @len1: Length of num1
 * @len2: Length of num2
-* @lenr: Length of result
 */
-void multiply_numbers(char *num1, char *num2, char *result,
-	int len1, int len2, int lenr)
+void multiply_numbers(char *num1, char *num2, char *result, int len1, int len2)
 {
 	int i, j, carry, tmp;
 
 	for (i = len1 - 1; i >= 0; i--)
 	{
 		if (num1[i] < '0' || num1[i] > '9')
-			error_exit(result);
+			error_exit();
 		carry = 0;
 		for (j = len2 - 1; j >= 0; j--)
 		{
 			if (num2[j] < '0' || num2[j] > '9')
-				error_exit(result);
+				error_exit();
 			tmp = (num1[i] - '0') * (num2[j] - '0') +
 				carry + (result[i + j + 1] - '0');
 			carry = tmp / 10;
@@ -124,17 +122,10 @@ void _putchar(char *str)
 
 /**
 * error_exit - exits with status 98 and prints Error
-* @result: pointer to free before exiting
 * Return: 98
 */
-int error_exit(char *result)
+int error_exit(void)
 {
-	free(result);
-	_putchar('E');
-	_putchar('r');
-	_putchar('r');
-	_putchar('o');
-	_putchar('r');
-	_putchar('\n');
+	_putchar("Error");
 	exit(98);
 }
