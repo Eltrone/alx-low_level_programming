@@ -1,28 +1,24 @@
 #include "main.h"
 
 /**
-* main - Entry point
+* main - Entry point, multiplies two numbers
 * @argc: argument count
 * @argv: argument vector
-* @return: 0 on success, 98 otherwise
+* Return: 0 on success, 98 otherwise
 */
 int main(int argc, char *argv[])
 {
-	char *num1, *num2;
-
 	if (argc != 3 || !is_digit(argv[1]) || !is_digit(argv[2]))
 	{
 		errors();
 		exit(98);
 	}
-	num1 = argv[1];
-	num2 = argv[2];
-	multiply(num1, num2);
+	multiply(argv[1], argv[2]);
 	return (0);
 }
 
 /**
-* errors - Print an error message to stdout
+* errors - Prints an error message to stdout
 */
 void errors(void)
 {
@@ -34,9 +30,9 @@ void errors(void)
 }
 
 /**
-* is_digit - Check if string s consists of digits only
+* is_digit - Checks if string consists of digits
 * @s: string to be checked
-* @return: 1 if s consists of digits, 0 otherwise
+* Return: 1 if s consists of digits, 0 otherwise
 */
 int is_digit(char *s)
 {
@@ -50,7 +46,7 @@ int is_digit(char *s)
 }
 
 /**
-* multiply - Multiply two numbers and print the result
+* multiply - Multiplies two numbers and prints the result
 * @num1: first number
 * @num2: second number
 */
@@ -68,7 +64,6 @@ void multiply(char *num1, char *num2)
 	}
 	for (i = 0; i < len1 + len2; i++)
 		result[i] = 0;
-
 	for (i = len1 - 1; i >= 0; i--)
 	{
 		carry = 0;
@@ -93,7 +88,7 @@ void multiply(char *num1, char *num2)
 /**
 * _strlen - Calculate the length of a string
 * @s: the string
-* @return: length of the string
+* Return: length of the string
 */
 int _strlen(char *s)
 {
