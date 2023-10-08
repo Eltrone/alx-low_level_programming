@@ -1,10 +1,10 @@
 #include "main.h"
 
 /**
-* main - Entry point, multiplies two numbers
-* @argc: argument count
-* @argv: argument vector
-* Return: 0 on success, 98 otherwise
+* main - multiplies two large numbers
+* @argc: Argument count
+* @argv: Argument vector
+* Return: 0 on success, 98 on failure
 */
 int main(int argc, char *argv[])
 {
@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
 }
 
 /**
-* errors - Prints an error message to stdout
+* errors - prints "Error" followed by a new line to stdout
 */
 void errors(void)
 {
@@ -30,9 +30,9 @@ void errors(void)
 }
 
 /**
-* is_digit - Checks if string consists of digits
-* @s: string to be checked
-* Return: 1 if s consists of digits, 0 otherwise
+* is_digit - Checks if a string only contains digits
+* @s: String to check
+* Return: 1 if all digits, 0 otherwise
 */
 int is_digit(char *s)
 {
@@ -46,7 +46,7 @@ int is_digit(char *s)
 }
 
 /**
-* multiply - Multiplies two numbers and prints the result
+* multiply - Multiplies two large numbers
 * @num1: first number
 * @num2: second number
 */
@@ -86,9 +86,9 @@ void multiply(char *num1, char *num2)
 }
 
 /**
-* _strlen - Calculate the length of a string
-* @s: the string
-* Return: length of the string
+* _strlen - Calculates the length of a string
+* @s: String to calculate the length of
+* Return: Length of string
 */
 int _strlen(char *s)
 {
