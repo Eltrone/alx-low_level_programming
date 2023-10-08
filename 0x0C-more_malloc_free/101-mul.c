@@ -55,7 +55,8 @@ void initialize_result(char *result, int lenr)
 * @len2: Length of num2
 * @lenr: Length of result
 */
-void multiply_numbers(char *num1, char *num2, char *result, int len1, int len2, int lenr)
+void multiply_numbers(char *num1, char *num2, char *result,
+	int len1, int len2, int lenr)
 {
 	int i, j, carry, tmp;
 
@@ -68,7 +69,8 @@ void multiply_numbers(char *num1, char *num2, char *result, int len1, int len2, 
 		{
 			if (num2[j] < '0' || num2[j] > '9')
 				error_exit(result);
-			tmp = (num1[i] - '0') * (num2[j] - '0') + carry + (result[i + j + 1] - '0');
+			tmp = (num1[i] - '0') * (num2[j] - '0') +
+				carry + (result[i + j + 1] - '0');
 			carry = tmp / 10;
 			result[i + j + 1] = (tmp % 10) + '0';
 		}
