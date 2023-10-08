@@ -14,7 +14,7 @@ int _putchar(char c);
 void errors(void);
 int _strlen(char *s);
 int is_digit(char *s);
-void multiply(char *s1, char *s2, int *result, int len);
+void multiply(char *s1, char *s2, int *result);
 
 
 #endif /* MAIN_H */
