@@ -35,7 +35,7 @@ void print_float(va_list list)
 */
 void print_string(va_list list)
 {
-	char *s = va_arg(list, char*);
+	char *s = va_arg(list, char *);
 
 	if (s == NULL)
 		s = "(nil)";
@@ -53,7 +53,7 @@ void print_all(const char * const format, ...)
 	int i = 0;
 	int j;
 	char *separator = "";
-	
+
 	typedef void (*print_func_t)(va_list);
 	print_func_t funcs[] = {print_char, print_int, print_float, print_string};
 	char types[] = {'c', 'i', 'f', 's'};
