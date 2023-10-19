@@ -1,21 +1,18 @@
 section .data
-    hello_message db 'Hello, Holberton', 10, 0 ; 10 is the ASCII code for newline
+    hello db 'Hello, Holberton', 0x0A, 0 ; null-terminated string with a newline
 
 section .text
-    extern printf  ; Declare printf as an external function
-
-    global _start ; Entry point for the program
+    extern printf  ; declare printf as an external function
+    global _start  ; entry point for the program
 
 _start:
-    ; Prepare arguments for printf
-    mov rdi, hello_message ; First argument: format string
-    xor rax, rax ; Clear rax to initialize varargs count to zero
+    ; write the string to stdout using printf
+    mov rdi, hello ; the address of the string to print
+    xor rax, rax   ; make sure to clear RAX register before calling printf
+    call printf    ; call printf
 
-    ; Call printf
-    call printf
-
-    ; Exit the program
-    mov rdi, 0  ; return code
-    mov rax, 60 ; syscall number for exit
+    ; exit the program
+    mov rax, 60    ; syscall number for exit
+    xor rdi, rdi   ; status 0
     syscall
 
