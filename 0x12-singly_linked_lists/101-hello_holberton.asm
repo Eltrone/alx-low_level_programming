@@ -3,16 +3,16 @@ section .data
 
 section .text
     extern printf  ; declare printf as an external function
-    global _start  ; entry point for the program
+    extern exit    ; declare exit as an external function
+    global main    ; entry point for the program should now be main instead of _start
 
-_start:
+main:
     ; write the string to stdout using printf
     mov rdi, hello ; the address of the string to print
     xor rax, rax   ; make sure to clear RAX register before calling printf
     call printf    ; call printf
 
-    ; exit the program
-    mov rax, 60    ; syscall number for exit
+    ; exit the program using exit function
     xor rdi, rdi   ; status 0
-    syscall
+    call exit      ; call exit
 
