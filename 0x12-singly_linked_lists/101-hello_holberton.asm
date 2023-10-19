@@ -1,18 +1,21 @@
 section .data
-    hello db 'Hello, Holberton',0
+    hello_message db 'Hello, Holberton', 10, 0 ; 10 is the ASCII code for newline
 
 section .text
-    extern  printf
-    global _start
+    extern printf  ; Declare printf as an external function
+
+    global _start ; Entry point for the program
 
 _start:
-    ; prepare arguments for printf
-    mov rdi, hello    ; pointer to format string
-    xor rax, rax      ; no floating point arguments
+    ; Prepare arguments for printf
+    mov rdi, hello_message ; First argument: format string
+    xor rax, rax ; Clear rax to initialize varargs count to zero
+
+    ; Call printf
     call printf
 
-    ; exit syscall
-    mov rax, 60       ; syscall number for exit
-    xor rdi, rdi      ; status 0
+    ; Exit the program
+    mov rdi, 0  ; return code
+    mov rax, 60 ; syscall number for exit
     syscall
 
