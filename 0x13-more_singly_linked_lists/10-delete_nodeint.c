@@ -1,38 +1,84 @@
-#include "lists.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 /**
-* delete_nodeint_at_index - Deletes the node at index of a listint_t list
-* @head: Pointer to the head of the list
-* @index: Index of the node to delete, starting at 0
-*
-* Return: 1 if succeeded, -1 if failed
+* struct Node - node for singly linked list
+* @data: data in node
+* @next: pointer to the next node
 */
-int delete_nodeint_at_index(listint_t **head, unsigned int index)
+struct Node
 {
-    listint_t *temp, *next_node;
-    unsigned int i;
+	int data;
+	struct Node *next;
+};
 
-    if (!*head)
-        return (-1);
+/**
+* delete_node_at_index - deletes the node at index of a listint_t linked list
+* @head: pointer to pointer to head of the list
+* @index: index of the node to delete, starts at 0
+* Return: 1 if success, -1 if failure
+*/
+int delete_node_at_index(struct Node **head, unsigned int index)
+{
+	struct Node *tmp = *head, *prev;
+	unsigned int i = 0;
 
-    temp = *head;
+	if (head == NULL || *head == NULL)
+		return (-1);
 
-    if (index == 0)
-    {
-        *head = temp->next;
-        free(temp);
-        return (1);
-    }
+	if (index == 0)
+	{
+		*head = tmp->next;
+		free(tmp);
+		return (1);
+	}
 
-    for (i = 0; i < index - 1; i++)
-    {
-        if (!temp)
-            return (-1);
-        temp = temp->next;
-    }
+	while (tmp != NULL)
+	{
+		if (i == index)
+		{
+			prev->next = tmp->next;
+			free(tmp);
+			return (1);
+		}
+		prev = tmp;
+		tmp = tmp->next;
+		i++;
+	}
+	return (-1);
+}
 
-    if (!temp || !temp->next)
-        return (-1);
+/**
+* main - main function to test delete_node_at_index
+* Return: 0 if success
+*/
+int main(void)
+{
+	struct Node *head = malloc(sizeof(struct Node));
+	struct Node *second = malloc(sizeof(struct Node));
+	struct Node *third = malloc(sizeof(struct Node));
 
-    next
+	if (head == NULL || second == NULL || third == NULL)
+		return (1);
+
+	head->data = 1;
+	head->next = second;
+
+	second->data = 2;
+	second->next = third;
+
+	third->data = 3;
+	third->next = NULL;
+
+	if (delete_node_at_index(&head, 1) == 1)
+		printf("Node deleted!\n");
+	else
+		printf("Node could not be deleted.\n");
+
+	free(head);
+	free(second);
+	free(third);
+
+	return (0);
+}
 
