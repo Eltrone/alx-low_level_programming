@@ -1,38 +1,43 @@
 #include "lists.h"
-#include <stdlib.h>
+#include <stdio.h>
 
 /**
- * free_listint_safe - free a listint_t list safely
- * @h: double pointer to the head of the list
- *
- * Return: the size of the list that was freed
- */
-size_t free_listint_safe(listint_t **h)
+* print_listint_safe - print a listint_t list safely
+* @head: pointer to the head of the list
+*
+* Return: the number of nodes in the list
+*/
+size_t print_listint_safe(const listint_t *head)
 {
-	listint_t *temp, *address_array[1024];
-	size_t count = 0, i;
+	const listint_t *slow = head, *fast = head;
+	size_t count = 0;
+	int loop_detected = 0;
 
-	if (!h || !*h)
-		return (0);
-
-	while (*h)
+	while (head)
 	{
-		for (i = 0; i < count; i++)
+		printf("[%p] %d\n", (void *)head, head->n);
+		count++;
+		head = head->next;
+
+		if (!loop_detected)
 		{
-			if (address_array[i] == *h)
+			if (slow == fast && head)
 			{
-				*h = NULL;
-				return (count);
+				loop_detected = 1;
+				fast = head->next;
+			}
+			else
+			{
+				slow = slow->next;
+				if (fast && fast->next)
+					fast = fast->next->next;
 			}
 		}
-
-		address_array[count++] = *h;
-		temp = *h;
-		*h = (*h)->next;
-		free(temp);
 	}
 
-	*h = NULL;
-	return (count);
+	if (loop_detected)
+		printf("-> [%p] %d\n", (void *)slow, slow->n);
+
+	return count;
 }
 
