@@ -45,48 +45,39 @@ const char *get_ei_osabi(unsigned char ei_osabi)
  * print_magic - prints the magic numbers
  * @header: the ELF header
  */
-void print_magic(unsigned char *e_ident)
+void print_magic(Elf64_Ehdr header)
 {
 	int i;
 
 	printf("  Magic:   ");
 	for (i = 0; i < EI_NIDENT; i++)
-		printf("%02x ", e_ident[i]);
+		printf("%02x ", header.e_ident[i]);
 	printf("\n");
 }
 
 /**
- * print_header_64 - prints the ELF header for 64-bit files
+ * print_header - prints the ELF header
  * @header: the ELF header
  */
-void print_header_64(Elf64_Ehdr header)
+void print_header(Elf64_Ehdr header)
 {
 	printf("ELF Header:\n");
-	print_magic(header.e_ident);
-	printf("  Class:                             ELF64\n");
-	printf("  Data:                              2's complement, little endian\n");
-	printf("  Version:                           %d (current)\n", header.e_ident[EI_VERSION]);
-	printf("  OS/ABI:                            %s\n", get_ei_osabi(header.e_ident[EI_OSABI]));
-	printf("  ABI Version:                       %d\n", header.e_ident[EI_ABIVERSION]);
-	printf("  Type:                              %s\n", get_e_type(header.e_type));
-	printf("  Entry point address:               0x%lx\n", header.e_entry);
-}
-
-/**
- * print_header_32 - prints the ELF header for 32-bit files
- * @header: the ELF header
- */
-void print_header_32(Elf32_Ehdr header)
-{
-	printf("ELF Header:\n");
-	print_magic(header.e_ident);
-	printf("  Class:                             ELF32\n");
-	printf("  Data:                              2's complement, little endian\n");
-	printf("  Version:                           %d (current)\n", header.e_ident[EI_VERSION]);
-	printf("  OS/ABI:                            %s\n", get_ei_osabi(header.e_ident[EI_OSABI]));
-	printf("  ABI Version:                       %d\n", header.e_ident[EI_ABIVERSION]);
-	printf("  Type:                              %s\n", get_e_type(header.e_type));
-	printf("  Entry point address:               0x%x\n", header.e_entry);
+	print_magic(header);
+	printf("  Class:                             ");
+	printf("%s\n", header.e_ident[EI_CLASS] == ELFCLASS32 ? "ELF32" : "ELF64");
+	printf("  Data:                              ");
+	printf("%s\n", header.e_ident[EI_DATA] == ELFDATA2LSB ?
+	       "2's complement, little endian" : "2's complement, big endian");
+	printf("  Version:                           ");
+	printf("%d (current)\n", header.e_ident[EI_VERSION]);
+	printf("  OS/ABI:                            ");
+	printf("%s\n", get_ei_osabi(header.e_ident[EI_OSABI]));
+	printf("  ABI Version:                       %d\n",
+	       header.e_ident[EI_ABIVERSION]);
+	printf("  Type:                              ");
+	printf("%s\n", get_e_type(header.e_type));
+	printf("  Entry point address:               0x%lx\n",
+	       header.e_entry);
 }
 
 /**
@@ -98,69 +89,35 @@ void print_header_32(Elf32_Ehdr header)
 int main(int argc, char *argv[])
 {
 	int fd;
-	unsigned char e_ident[EI_NIDENT];
+	Elf64_Ehdr header;
 
 	if (argc != 2)
 	{
 		write(2, "Usage: elf_header elf_filename\n", 31);
 		exit(98);
 	}
-
 	fd = open(argv[1], O_RDONLY);
 	if (fd == -1)
 	{
 		perror("Error");
 		exit(98);
 	}
-
-	if (read(fd, e_ident, EI_NIDENT) != EI_NIDENT)
+	if (read(fd, &header, sizeof(header)) != sizeof(header))
 	{
 		perror("Error");
 		close(fd);
 		exit(98);
 	}
-
-	if (e_ident[EI_MAG0] != ELFMAG0 ||
-	    e_ident[EI_MAG1] != ELFMAG1 ||
-	    e_ident[EI_MAG2] != ELFMAG2 ||
-	    e_ident[EI_MAG3] != ELFMAG3)
+	if (header.e_ident[EI_MAG0] != ELFMAG0 ||
+	    header.e_ident[EI_MAG1] != ELFMAG1 ||
+	    header.e_ident[EI_MAG2] != ELFMAG2 ||
+	    header.e_ident[EI_MAG3] != ELFMAG3)
 	{
 		write(2, "Not an ELF file\n", 16);
 		close(fd);
 		exit(98);
 	}
-
-	if (e_ident[EI_CLASS] == ELFCLASS64)
-	{
-		Elf64_Ehdr header_64;
-		lseek(fd, 0, SEEK_SET);
-		if (read(fd, &header_64, sizeof(header_64)) != sizeof(header_64))
-		{
-			perror("Error");
-			close(fd);
-			exit(98);
-		}
-		print_header_64(header_64);
-	}
-	else if (e_ident[EI_CLASS] == ELFCLASS32)
-	{
-		Elf32_Ehdr header_32;
-		lseek(fd, 0, SEEK_SET);
-		if (read(fd, &header_32, sizeof(header_32)) != sizeof(header_32))
-		{
-			perror("Error");
-			close(fd);
-			exit(98);
-		}
-		print_header_32(header_32);
-	}
-	else
-	{
-		write(2, "Unsupported ELF file class\n", 26);
-		close(fd);
-		exit(98);
-	}
-
+	print_header(header);
 	close(fd);
 	return (0);
 }
