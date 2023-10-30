@@ -3,7 +3,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <elf.h>
-
+#include <stdint.h>
 
 /**
  * get_e_type - returns the string description of e_type
@@ -76,8 +76,7 @@ void print_header(Elf64_Ehdr header)
 	printf("  ABI Version:                       %d\n",
 	       header.e_ident[EI_ABIVERSION]);
 	printf("  Type:                              ");
-	printf(header.e_type == ET_EXEC ?
-	       "EXEC (Executable file)\n" : "<unknown>\n");
+	printf("%s\n", get_e_type(header.e_type));
 	printf("  Entry point address:               0x%lx\n",
 	       header.e_entry);
 }
