@@ -62,23 +62,23 @@ void print_magic(Elf64_Ehdr header)
 
 void print_header(Elf64_Ehdr header)
 {
-        printf("ELF Header:\n");
-        print_magic(header);
-        printf("  Class:                             ");
-        printf("%s\n", header.e_ident[EI_CLASS] == ELFCLASS32 ? "ELF32" : "ELF64");
-        printf("  Data:                              ");
-        printf("%s\n", header.e_ident[EI_DATA] == ELFDATA2LSB ?
-               "2's complement, little endian" : "2's complement, big endian");
-        printf("  Version:                           ");
-        printf("%d (current)\n", header.e_ident[EI_VERSION]);
-        printf("  OS/ABI:                            ");
-        printf("%s\n", get_ei_osabi(header.e_ident[EI_OSABI]));
-        printf("  ABI Version:                       %d\n",
-               header.e_ident[EI_ABIVERSION]);
-        printf("  Type:                              ");
-        printf("%s\n", get_e_type(header.e_type));
-        printf("  Entry point address:               0x%lx\n",
-               header.e_entry);
+	printf("ELF Header:\n");
+	print_magic(header);
+	printf("  Class:                             ");
+	printf("%s\n", header.e_ident[EI_CLASS] == ELFCLASS32 ? "ELF32" : "ELF64");
+	printf("  Data:                              ");
+	printf("%s\n", header.e_ident[EI_DATA] == ELFDATA2LSB ?
+	       "2's complement, little endian" : "2's complement, big endian");
+	printf("  Version:                           ");
+	printf("%d (current)\n", header.e_ident[EI_VERSION]);
+	printf("  OS/ABI:                            ");
+	printf("%s\n", get_ei_osabi(header.e_ident[EI_OSABI]));
+	printf("  ABI Version:                       %d\n",
+	       header.e_ident[EI_ABIVERSION]);
+	printf("  Type:                              ");
+	printf("%s\n", get_e_type(header.e_type));
+	printf("  Entry point address:               0x%lx\n",
+	       header.e_entry);
 	printf("Debug: e_type value is %u\n", header.e_type);
 }
 
