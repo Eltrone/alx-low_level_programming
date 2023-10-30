@@ -1,79 +1,80 @@
-#include "main.h"
-#include <fcntl.h>
-#include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
-
-void display_magic(unsigned char *e_ident);
-void validate_elf(unsigned char *e_ident);
+#include <unistd.h>
+#include <fcntl.h>
+#include <elf.h>
 
 /**
- * main - Entry point, displays the ELF header info
- * @argc: Argument count
- * @argv: Argument vector
- * Return: 0 on success, 98 on failure
- */
+* main - Entry point
+* @argc: Argument count
+* @argv: Argument vector
+* Return: 0 on success, 98 on failure
+*/
 int main(int argc, char *argv[])
 {
-	int fd;
-	unsigned char e_ident[16];
-	ssize_t bytes_read;
+	int fd, i;
+	Elf64_Ehdr header;
 
 	if (argc != 2)
 	{
-		dprintf(STDERR_FILENO, "Usage: %s elf_filename\n", argv[0]);
+		write(2, "Usage: elf_header elf_filename\n", 31);
 		exit(98);
 	}
 
 	fd = open(argv[1], O_RDONLY);
 	if (fd == -1)
 	{
-		dprintf(STDERR_FILENO, "Error: Can't read file %s\n", argv[1]);
+		perror("Error");
 		exit(98);
 	}
 
-	bytes_read = read(fd, e_ident, 16);
-	if (bytes_read != 16)
+	if (read(fd, &header, sizeof(header)) != sizeof(header))
 	{
-		dprintf(STDERR_FILENO, "Error: Can't read file %s\n", argv[1]);
+		perror("Error");
 		close(fd);
 		exit(98);
 	}
 
-	validate_elf(e_ident);
+	if (header.e_ident[EI_MAG0] != ELFMAG0 ||
+	    header.e_ident[EI_MAG1] != ELFMAG1 ||
+	    header.e_ident[EI_MAG2] != ELFMAG2 ||
+	    header.e_ident[EI_MAG3] != ELFMAG3)
+	{
+		write(2, "Not an ELF file\n", 16);
+		close(fd);
+		exit(98);
+	}
 
 	printf("ELF Header:\n");
-	display_magic(e_ident);
+	printf("  Magic:   ");
+	for (i = 0; i < EI_NIDENT; i++)
+		printf("%02x ", header.e_ident[i]);
+	printf("\n");
 
-	/* TODO: Add more header information */
+	printf("  Class:                             ");
+	printf(header.e_ident[EI_CLASS] == ELFCLASS32 ? "ELF32\n" : "ELF64\n");
+
+	printf("  Data:                              ");
+	printf(header.e_ident[EI_DATA] == ELFDATA2LSB ? "2's complement, little endian\n" : "2's complement, big endian\n");
+
+	printf("  Version:                           ");
+	printf("%d (current)\n", header.e_ident[EI_VERSION]);
+
+	printf("  OS/ABI:                            ");
+	/* Vous pouvez ajouter plus de cas pour d'autres OS/ABI */
+	printf(header.e_ident[EI_OSABI] == ELFOSABI_SYSV ? "UNIX - System V\n" : "<unknown>\n");
+
+	printf("  ABI Version:                       ");
+	printf("%d\n", header.e_ident[EI_ABIVERSION]);
+
+	printf("  Type:                              ");
+	/* Vous pouvez ajouter plus de cas pour d'autres types */
+	printf(header.e_type == ET_EXEC ? "EXEC (Executable file)\n" : "<unknown>\n");
+
+	printf("  Entry point address:               ");
+	printf("0x%lx\n", header.e_entry);
 
 	close(fd);
 	return (0);
-}
-
-/**
- * display_magic - Display the magic part of ELF header
- * @e_ident: The ELF header identifier bytes
- */
-void display_magic(unsigned char *e_ident)
-{
-	printf("  Magic:   ");
-	for (int i = 0; i < 16; i++)
-		printf("%02x ", e_ident[i]);
-	printf("\n");
-}
-
-/**
- * validate_elf - Validate the ELF file
- * @e_ident: The ELF header identifier bytes
- */
-void validate_elf(unsigned char *e_ident)
-{
-	if (e_ident[0] != 0x7f || e_ident[1] != 'E' ||
-	    e_ident[2] != 'L' || e_ident[3] != 'F')
-	{
-		dprintf(STDERR_FILENO, "Error: Not an ELF file\n");
-		exit(98);
-	}
 }
 
