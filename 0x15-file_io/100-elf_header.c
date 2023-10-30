@@ -79,6 +79,7 @@ void print_header(Elf64_Ehdr header)
         printf("%s\n", get_e_type(header.e_type));
         printf("  Entry point address:               0x%lx\n",
                header.e_entry);
+	printf("Debug: e_type value is %u\n", header.e_type);
 }
 
 /*
