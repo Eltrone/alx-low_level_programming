@@ -82,6 +82,23 @@ void print_header(Elf64_Ehdr header)
 	printf("Debug: e_type value is %u\n", header.e_type);
 }
 
+/**
+ * print_header_32 - prints the ELF header for 32-bit files
+ * @header: the ELF header
+ */
+void print_header_32(Elf32_Ehdr header)
+{
+	printf("ELF Header:\n");
+	print_magic(header.e_ident);
+	printf("  Class:                             ELF32\n");
+	printf("  Data:                              2's complement, little endian\n");
+	printf("  Version:                           %d (current)\n", header.e_ident[EI_VERSION]);
+	printf("  OS/ABI:                            %s\n", get_ei_osabi(header.e_ident[EI_OSABI]));
+	printf("  ABI Version:                       %d\n", header.e_ident[EI_ABIVERSION]);
+	printf("  Type:                              %s\n", get_e_type(header.e_type));
+	printf("  Entry point address:               0x%x\n", header.e_entry);
+}
+
 /*
  * main - Entry point
  * @argc: Argument count
