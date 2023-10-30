@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+void do_close(int fd);
+
 /**
  * main - Entry point. Copies a file.
  * @argc: The number of arguments.
@@ -13,8 +15,9 @@
  */
 int main(int argc, char *argv[])
 {
-	int file_from, file_to, read_count, write_count;
+	int file_from, file_to;
 	char buffer[1024];
+	ssize_t read_count, write_count;
 
 	if (argc != 3)
 	{
@@ -25,7 +28,8 @@ int main(int argc, char *argv[])
 	file_from = open(argv[1], O_RDONLY);
 	if (file_from == -1)
 	{
-		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", argv[1]);
+		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n",
+			argv[1]);
 		exit(98);
 	}
 
@@ -41,29 +45,35 @@ int main(int argc, char *argv[])
 		write_count = write(file_to, buffer, read_count);
 		if (write_count != read_count)
 		{
-			dprintf(STDERR_FILENO, "Error: Can't write to %s\n", argv[2]);
+			dprintf(STDERR_FILENO, "Error: Can't write to %s\n",
+				argv[2]);
 			exit(99);
 		}
 	}
 
 	if (read_count == -1)
 	{
-		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", argv[1]);
+		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n",
+			argv[1]);
 		exit(98);
 	}
 
-	if (close(file_from) == -1)
-	{
-		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", file_from);
-		exit(100);
-	}
-
-	if (close(file_to) == -1)
-	{
-		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", file_to);
-		exit(100);
-	}
+	do_close(file_from);
+	do_close(file_to);
 
 	return (0);
+}
+
+/**
+ * do_close - Closes a file descriptor and exits on failure.
+ * @fd: The file descriptor.
+ */
+void do_close(int fd)
+{
+	if (close(fd) == -1)
+	{
+		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd);
+		exit(100);
+	}
 }
 
