@@ -5,14 +5,55 @@
 #include <elf.h>
 
 /**
-* main - Entry point
-* @argc: Argument count
-* @argv: Argument vector
-* Return: 0 on success, 98 on failure
-*/
+ * print_magic - prints the magic numbers
+ * @header: the ELF header
+ */
+void print_magic(Elf64_Ehdr header)
+{
+	int i;
+
+	printf("  Magic:   ");
+	for (i = 0; i < EI_NIDENT; i++)
+		printf("%02x ", header.e_ident[i]);
+	printf("\n");
+}
+
+/**
+ * print_header - prints the ELF header
+ * @header: the ELF header
+ */
+void print_header(Elf64_Ehdr header)
+{
+	printf("ELF Header:\n");
+	print_magic(header);
+	printf("  Class:                             ");
+	printf(header.e_ident[EI_CLASS] == ELFCLASS32 ? "ELF32\n" : "ELF64\n");
+	printf("  Data:                              ");
+	printf(header.e_ident[EI_DATA] == ELFDATA2LSB ?
+	       "2's complement, little endian\n" : "2's complement, big endian\n");
+	printf("  Version:                           ");
+	printf("%d (current)\n", header.e_ident[EI_VERSION]);
+	printf("  OS/ABI:                            ");
+	printf(header.e_ident[EI_OSABI] == ELFOSABI_SYSV ?
+	       "UNIX - System V\n" : "<unknown>\n");
+	printf("  ABI Version:                       %d\n",
+	       header.e_ident[EI_ABIVERSION]);
+	printf("  Type:                              ");
+	printf(header.e_type == ET_EXEC ?
+	       "EXEC (Executable file)\n" : "<unknown>\n");
+	printf("  Entry point address:               0x%lx\n",
+	       header.e_entry);
+}
+
+/**
+ * main - Entry point
+ * @argc: Argument count
+ * @argv: Argument vector
+ * Return: 0 on success, 98 on failure
+ */
 int main(int argc, char *argv[])
 {
-	int fd, i;
+	int fd;
 	Elf64_Ehdr header;
 
 	if (argc != 2)
@@ -45,34 +86,7 @@ int main(int argc, char *argv[])
 		exit(98);
 	}
 
-	printf("ELF Header:\n");
-	printf("  Magic:   ");
-	for (i = 0; i < EI_NIDENT; i++)
-		printf("%02x ", header.e_ident[i]);
-	printf("\n");
-
-	printf("  Class:                             ");
-	printf(header.e_ident[EI_CLASS] == ELFCLASS32 ? "ELF32\n" : "ELF64\n");
-
-	printf("  Data:                              ");
-	printf(header.e_ident[EI_DATA] == ELFDATA2LSB ? "2's complement, little endian\n" : "2's complement, big endian\n");
-
-	printf("  Version:                           ");
-	printf("%d (current)\n", header.e_ident[EI_VERSION]);
-
-	printf("  OS/ABI:                            ");
-	/* Vous pouvez ajouter plus de cas pour d'autres OS/ABI */
-	printf(header.e_ident[EI_OSABI] == ELFOSABI_SYSV ? "UNIX - System V\n" : "<unknown>\n");
-
-	printf("  ABI Version:                       ");
-	printf("%d\n", header.e_ident[EI_ABIVERSION]);
-
-	printf("  Type:                              ");
-	/* Vous pouvez ajouter plus de cas pour d'autres types */
-	printf(header.e_type == ET_EXEC ? "EXEC (Executable file)\n" : "<unknown>\n");
-
-	printf("  Entry point address:               ");
-	printf("0x%lx\n", header.e_entry);
+	print_header(header);
 
 	close(fd);
 	return (0);
