@@ -13,6 +13,8 @@ void validate_elf(unsigned char *e_ident);
 int main(int argc, char *argv[]);
 void print_magic(Elf64_Ehdr header);
 void print_header(Elf64_Ehdr header);
+const char *get_e_type(uint16_t e_type);
+const char *get_ei_osabi(unsigned char ei_osabi);
 
 #endif /* MAIN_H */
 

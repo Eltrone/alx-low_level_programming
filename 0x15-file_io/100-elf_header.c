@@ -4,6 +4,43 @@
 #include <fcntl.h>
 #include <elf.h>
 
+
+/**
+ * get_e_type - returns the string description of e_type
+ * @e_type: the e_type value
+ * Return: string description
+ */
+const char *get_e_type(uint16_t e_type)
+{
+	switch (e_type)
+	{
+		case ET_NONE: return "NONE (No file type)";
+		case ET_REL: return "REL (Relocatable file)";
+		case ET_EXEC: return "EXEC (Executable file)";
+		case ET_DYN: return "DYN (Shared object file)";
+		case ET_CORE: return "CORE (Core file)";
+		default: return "<unknown>";
+	}
+}
+
+/**
+ * get_ei_osabi - returns the string description of EI_OSABI
+ * @ei_osabi: the EI_OSABI value
+ * Return: string description
+ */
+const char *get_ei_osabi(unsigned char ei_osabi)
+{
+	switch (ei_osabi)
+	{
+		case ELFOSABI_SYSV: return "UNIX - System V";
+		case ELFOSABI_HPUX: return "UNIX - HP-UX";
+		case ELFOSABI_NETBSD: return "UNIX - NetBSD";
+		case ELFOSABI_LINUX: return "UNIX - Linux";
+		case ELFOSABI_SOLARIS: return "UNIX - Solaris";
+		default: return "<unknown>";
+	}
+}
+
 /**
  * print_magic - prints the magic numbers
  * @header: the ELF header
