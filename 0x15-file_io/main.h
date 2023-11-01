@@ -16,5 +16,5 @@ void print_header(Elf64_Ehdr header);
 const char *get_e_type(uint16_t e_type);
 const char *get_ei_osabi(unsigned char ei_osabi);
 void print_header_32(Elf32_Ehdr header);
-#endif /* MAIN_H */
+#endif
 
