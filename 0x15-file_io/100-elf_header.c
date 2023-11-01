@@ -69,7 +69,10 @@ void print_header(Elf64_Ehdr header)
 	printf("%s\n", header.e_ident[EI_DATA] == ELFDATA2LSB ?
 	       "2's complement, little endian" : "2's complement, big endian");
 	printf("  Version:                           ");
-	printf("%d (current)\n", header.e_ident[EI_VERSION]);
+	printf("%d", header.e_ident[EI_VERSION]);
+	if (header.e_ident[EI_VERSION] == EV_CURRENT)
+		printf(" (current)");
+	printf("\n");
 	printf("  OS/ABI:                            ");
 	printf("%s\n", get_ei_osabi(header.e_ident[EI_OSABI]));
 	printf("  ABI Version:                       %d\n",
@@ -77,7 +80,7 @@ void print_header(Elf64_Ehdr header)
 	printf("  Type:                              ");
 	printf("%s\n", get_e_type(header.e_type));
 	printf("  Entry point address:               0x%lx\n",
-	       header.e_entry);
+	       (unsigned long) header.e_entry);
 }
 
 /**
