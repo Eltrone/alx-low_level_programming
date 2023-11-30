@@ -1,8 +1,10 @@
 #!/usr/bin/python3
 import sys
 
+
 def print_args():
-    argc = len(sys.argv) -1
+    argc = len(sys.argv) - 1
+
     if argc == 0:
         print("0 arguments.")
     elif argc == 1:
@@ -12,6 +14,7 @@ def print_args():
 
     for i in range(1, argc + 1):
         print("{}: {}".format(i, sys.argv[i]))
+
 
 if __name__ == "__main__":
     print_args()
