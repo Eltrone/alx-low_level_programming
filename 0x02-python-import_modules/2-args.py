@@ -2,7 +2,7 @@
 import sys
 
 def print_args():
-    argc = len(sys.argv) - 1  # Définition de argc dans la fonction
+    argc = len(sys.argv) -1 
 
     if argc == 0:
         print("0 arguments.")
