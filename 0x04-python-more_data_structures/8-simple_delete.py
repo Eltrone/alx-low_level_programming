@@ -4,7 +4,7 @@ def simple_delete(a_dictionary, key=""):
         del a_dictionary[key]
     return a_dictionary
 
- 
+
 if __name__ == "__main__":
     a_dictionary = {
         'language': "C",
