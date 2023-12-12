@@ -1,9 +1,6 @@
 #include "main.h"
+#include <unistd.h>
 
-int _isalpha(int c) {
-	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')) {
-		return (1);
-	} else {
-		return (0);
-	}
+int _putchar(char c) {
+	return (write(1, &c, 1));
 }
