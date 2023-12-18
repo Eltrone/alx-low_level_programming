@@ -5,8 +5,7 @@
 
 void print_python_list(PyObject *p)
 {
-    long unsigned int size, alloc;
-    int i;
+    long unsigned int size, alloc, i;  // Modifiez ici
     const char *type;
 
     printf("[*] Python list info\n");
@@ -21,10 +20,10 @@ void print_python_list(PyObject *p)
     printf("[*] Size of the Python List = %lu\n", size);
     printf("[*] Allocated = %lu\n", alloc);
 
-    for (i = 0; i < size; i++)
+    for (i = 0; i < size; i++)  // i est maintenant du même type que size
     {
         type = Py_TYPE(PyList_GetItem(p, i))->tp_name;
-        printf("Element %d: %s\n", i, type);
+        printf("Element %lu: %s\n", i, type);  // Utilisez %lu pour i
     }
 }
 
