@@ -3,7 +3,7 @@
 
 
 class Square:
-    """Represent a square with methods to calculate its area and print its representation."""
+    """Represent a square with print and area methods."""
 
     def __init__(self, size=0):
         """Initialize the class with size validation.
