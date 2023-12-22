@@ -27,7 +27,7 @@ int shash_table_set(shash_table_t *ht, const char *key, const char *value) {
     if (!ht || !key || strlen(key) == 0 || !value)
         return 0;
 
-    // Create a new node
+    /* Create a new node */
     new_node = malloc(sizeof(shash_node_t));
     if (!new_node)
         return 0;
@@ -38,12 +38,12 @@ int shash_table_set(shash_table_t *ht, const char *key, const char *value) {
         return 0;
     }
 
-    // Insert node into the hash table
+    /* Insert node into the hash table */
     index = key_index((const unsigned char *)key, ht->size);
     new_node->next = ht->array[index];
     ht->array[index] = new_node;
 
-    // Insert node into the sorted linked list
+    /* Insert node into the sorted linked list */
     if (!ht->shead || strcmp(key, ht->shead->key) <= 0) {
         new_node->sprev = NULL;
         new_node->snext = ht->shead;
