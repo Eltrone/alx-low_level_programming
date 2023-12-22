@@ -1,30 +1,32 @@
 #ifndef HASH_TABLES_H
 #define HASH_TABLES_H
 
-/* Inclure les bibliothèques standard nécessaires ici */
+#include <stdlib.h> /* Inclure les bibliothèques standard nécessaires ici */
 
 /**
- * struct hash_node_s - Nœud d'une table de hachage
- * @key: La clé, une chaîne de caractères
- * @value: La valeur correspondant à la clé
- * @next: Un pointeur vers le prochain nœud de la liste
+ * struct hash_node_s - Node of a hash table
+ * @key: The key, a string
+ * @value: The value corresponding to the key
+ * @next: A pointer to the next node of the List
  */
 typedef struct hash_node_s
 {
-     char *key;
-     char *value;
-     struct hash_node_s *next;
+	char *key;
+	char *value;
+	struct hash_node_s *next;
 } hash_node_t;
 
 /**
- * struct hash_table_s - Structure de données pour une table de hachage
- * @size: La taille du tableau
- * @array: Un tableau de pointeurs vers les nœuds de la liste
+ * struct hash_table_s - Hash table data structure
+ * @size: The size of the array
+ * @array: An array of size @size
+ * Each cell of this array is a pointer to the first node of a linked list,
+ * because we want our HashTable to use a Chaining collision handling
  */
 typedef struct hash_table_s
 {
-     unsigned long int size;
-     hash_node_t **array;
+	unsigned long int size;
+	hash_node_t **array;
 } hash_table_t;
 
 /* Prototype de la fonction hash_table_create */
