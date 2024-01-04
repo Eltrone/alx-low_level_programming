@@ -14,15 +14,18 @@ def print_solution(board):
 
 def is_safe(board, row, col):
     """Vérifie si une reine peut être placée en (row, col)."""
+    # Vérifier la ligne et la colonne
     for i in range(len(board)):
         if board[row][i] == 1 or board[i][col] == 1:
             return False
-    for i, j in zip(range(row, -1, -1), range(col, -1, -1)):
-        if board[i][j] == 1:
-            return False
-    for i, j in zip(range(row, -1, -1), range(col, len(board))):
-        if board[i][j] == 1:
-            return False
+
+    # Vérifier les diagonales
+    for i in range(len(board)):
+        for j in range(len(board)):
+            if (i + j == row + col) or (i - j == row - col):
+                if board[i][j] == 1:
+                    return False
+
     return True
 
 
