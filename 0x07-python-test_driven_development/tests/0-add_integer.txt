@@ -1,0 +1,36 @@
+>>> add_integer = __import__('0-add_integer').add_integer
+
+# Test avec des entiers
+>>> add_integer(1, 2)
+3
+
+# Test avec un entier et une valeur par défaut
+>>> add_integer(100)
+198
+
+# Test avec des flottants
+>>> add_integer(100.3, -2)
+98
+
+# Test avec un flottant et une valeur par défaut
+>>> add_integer(2.0)
+100
+
+# Test avec des types non numériques
+>>> add_integer(4, "School")
+Traceback (most recent call last):
+    ...
+TypeError: b must be an integer
+
+# Test avec None
+>>> add_integer(None)
+Traceback (most recent call last):
+    ...
+TypeError: a must be an integer
+
+# Test avec des chaînes de caractères
+>>> add_integer("Hello", "World")
+Traceback (most recent call last):
+    ...
+TypeError: a must be an integer
+
