@@ -1,0 +1,24 @@
+Test pour la méthode integer_validator de la classe BaseGeometry.
+
+>>> bg = BaseGeometry()
+
+# Tester avec une valeur valide
+>>> bg.integer_validator("age", 10)
+
+# Tester avec une valeur non-entière
+>>> bg.integer_validator("name", "John")
+Traceback (most recent call last):
+    ...
+TypeError: name must be an integer
+
+# Tester avec une valeur négative
+>>> bg.integer_validator("age", -4)
+Traceback (most recent call last):
+    ...
+ValueError: age must be greater than 0
+
+# Tester avec zéro
+>>> bg.integer_validator("age", 0)
+Traceback (most recent call last):
+    ...
+ValueError: age must be greater than 0
