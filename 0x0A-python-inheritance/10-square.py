@@ -5,18 +5,15 @@ Rectangle = __import__('9-rectangle').Rectangle
 
 
 class Square(Rectangle):
-    """ Classe Square qui hérite de Rectangle. """
+    """ Classe Square héritant de Rectangle. """
 
     def __init__(self, size):
         """
-        Initialise un nouveau Square.
+        Initialise un nouveau carré.
 
         Args:
-            size (int): La taille du côté du carré doit être un entier positif.
+            size (int): La taille des côtés du carré entier positif.
         """
         self.integer_validator("size", size)
         super().__init__(size, size)
-
-    def area(self):
-        """ Retourne l'aire du carré. """
-        return self.__width ** 2
+        self.__size = size
