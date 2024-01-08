@@ -4,7 +4,7 @@
 
 def is_kind_of_class(obj, a_class):
     """
-    Vérifie si l'objet est une instance de, ou s'il est une instance d'une classe
+    Vérifie objet est une instance de, ou s'il est une instance d'une classe
     héritée, de la classe spécifiée.
 
     Args:
