@@ -1,4 +1,6 @@
->>> from 7-base_geometry import BaseGeometry
+>>> import sys
+>>> sys.path.append('/chemin/vers/le/dossier/de/votre/script')
+>>> from base_geometry import BaseGeometry
 >>> bg = BaseGeometry()
 
 # Tester avec une valeur valide
