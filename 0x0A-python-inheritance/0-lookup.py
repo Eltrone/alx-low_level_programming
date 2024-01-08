@@ -1,8 +1,14 @@
 #!/usr/bin/python3
-def lookup(obj):
-    """
-    Retourne la liste des attributs et méthodes disponibles d'un objet
+"""
+Module 0-lookup.
+Définit une fonction pour rechercher les attributs d'un objet.
+"""
 
+
+def lookup(obj):
+    """ 
+    Retourne la liste des attributs et méthodes disponibles d'un objet.
+    
     Args:
         obj (any): L'objet pour lequel chercher les attributs et méthodes.
 
