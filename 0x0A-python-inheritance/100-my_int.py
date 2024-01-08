@@ -3,7 +3,7 @@
 
 
 class MyInt(int):
-    """ Classe MyInt qui hérite de int avec des opérateurs == et != inversés. """
+    """ Classe MyInt qui hérite de int avec opérateurs == et != inversés. """
 
     def __eq__(self, other):
         """ Inverse l'opérateur ==. """
