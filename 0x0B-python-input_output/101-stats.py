@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 import sys
 
+
 def parse_line(line):
     """ Parse the line and return status code and file size. """
     parts = line.split(" ")
@@ -8,11 +9,13 @@ def parse_line(line):
     file_size = int(parts[-1])
     return status_code, file_size
 
+
 def print_stats(total_size, status_codes):
     """ Print the statistics. """
     print("File size: {}".format(total_size))
     for code in sorted(status_codes.keys()):
         print("{}: {}".format(code, status_codes[code]))
+
 
 def main():
     """ Main function to parse logs and compute metrics. """
@@ -32,10 +35,11 @@ def main():
             line_count += 1
             if line_count % 10 == 0:
                 print_stats(total_size, status_codes)
-    
+
     except KeyboardInterrupt:
         print_stats(total_size, status_codes)
         raise
+
 
 if __name__ == "__main__":
     main()
