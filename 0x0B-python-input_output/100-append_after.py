@@ -1,9 +1,9 @@
 #!/usr/bin/python3
-"""Module pour insérer une ligne après une chaîne spécifique dans un fichier."""
+"""Module pour insérer ligne après chaîne spécifique dans un fichier."""
 
 
 def append_after(filename="", search_string="", new_string=""):
-    """Insère une ligne de texte après chaque ligne contenant chaîne spécifique.
+    """Insère ligne de texte après ligne contenant chaîne spécifique.
 
     Args:
         filename (str): Le chemin du fichier à modifier.
