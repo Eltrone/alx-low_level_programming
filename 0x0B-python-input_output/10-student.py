@@ -27,5 +27,8 @@ class Student:
             dict: Un dictionnaire avec attributs spécifiés de l'étudiant.
         """
         if attrs is not None and all(isinstance(attr, str) for attr in attrs):
-            return {attr: getattr(self, attr) for attr in attrs if hasattr(self, attr)}
+            return {
+                attr: getattr(self, attr)
+                for attr in attrs if hasattr(self, attr)
+            }
         return self.__dict__
