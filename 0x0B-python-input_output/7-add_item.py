@@ -2,7 +2,6 @@
 """Script pour ajouter des arguments à une liste et sauvegarder en JSON."""
 
 import sys
-import os
 
 
 if __name__ == "__main__":
