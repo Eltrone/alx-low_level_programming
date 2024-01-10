@@ -1,31 +1,28 @@
->>> text_indentation = __import__('5-text_indentation').text_indentation
-
-# Test avec un texte standard
->>> text_indentation("Hello. How are you? Fine, thank you.")
-Hello.$
+"""
+>>> text_indentation("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quonam modo?")
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.$
 $
-How are you?$
+Quonam modo?$
 $
-Fine, thank you.
-
-# Test avec un texte sans ponctuation
->>> text_indentation("Hello How are you Fine thank you")
-Hello How are you Fine thank you
-
-# Test avec un texte contenant des espaces après la ponctuation
->>> text_indentation("Hello.  How are you?  Fine, thank you.")
-Hello.$
+>>> text_indentation("Utrum igitur tibi litteram videor an totas paginas commovere?")
+Utrum igitur tibi litteram videor an totas paginas commovere?$
 $
-How are you?$
+>>> text_indentation("Non autem hoc: igitur ne illud quidem.")
+Non autem hoc:$
 $
-Fine, thank you.
-
-# Test avec une chaîne vide
->>> text_indentation("")
-<BLANKLINE>
-
-# Test avec un type non-string
->>> text_indentation(123)
+igitur ne illud quidem.$
+$
+>>> text_indentation("Plus semper voluptatis? Teneo, inquit, finem illi videri nihil dolere.")
+Plus semper voluptatis?$
+$
+Teneo, inquit, finem illi videri nihil dolere.$
+$
+>>> text_indentation(42)
 Traceback (most recent call last):
-    ...
+   ...
 TypeError: text must be a string
+"""
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
