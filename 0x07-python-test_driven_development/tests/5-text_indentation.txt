@@ -20,7 +20,7 @@ Teneo, inquit, finem illi videri nihil dolere.
 <BLANKLINE>
 >>> text_indentation(42)
 Traceback (most recent call last):
-   ...
+    ...
 TypeError: text must be a string
 """
 
