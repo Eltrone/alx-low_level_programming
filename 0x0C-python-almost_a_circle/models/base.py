@@ -1,24 +1,23 @@
 #!/usr/bin/python3
-"""Module pour la classe Base."""
+""" Module base.py: Defines the Base class for all models. """
 
 
 class Base:
-    """Classe de base pour d'autres classes dans le projet.
-
-    Attributs:
-        __nb_objects (int): Compteur d'objets pour attribuer des ID automatiques.
-
-    Args:
-        id (int): L'identifiant de l'instance.
+    """
+    Base class for all other classes in the project.
+    This class manages the id attribute for all future classes and 
+    avoids duplicating the same code (and by extension, the same bugs).
     """
 
-    __nb_objects = 0
+    __nb_objects = 0  # Private class attribute to count number of instances
 
     def __init__(self, id=None):
-        """Initialise une nouvelle instance de Base.
+        """
+        Initializes the Base instance.
 
         Args:
-            id (int): L'identifiant de l'instance. Si None, un ID est attribué automatiquement.
+            id (int, optional): The instance id. If None auto-generated
+            id is assigned using the private __nb_objects attribute.
         """
         if id is not None:
             self.id = id
