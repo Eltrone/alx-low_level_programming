@@ -32,6 +32,22 @@ class Rectangle(Base):
         self.x = x
         self.y = y
 
+    def to_dictionary(self):
+        """
+        Return a dictionary representation of the rectangle.
+
+        Returns:
+            dict: A dictionary containing the attributes of the rectangle.
+
+        """
+        return {
+            "id": self.id,
+            "width": self.width,
+            "height": self.height,
+            "x": self.x,
+            "y": self.y
+        }
+
     @property
     def width(self):
         """Getter for the width."""
