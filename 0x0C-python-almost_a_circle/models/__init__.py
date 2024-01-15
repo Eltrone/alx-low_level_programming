@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """Module base.py - Defines a base class for all models in the project."""
 
+
 class Base:
     """Base class for all other classes in the project."""
     __nb_objects = 0  # Private class attribute
