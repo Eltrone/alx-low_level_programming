@@ -5,7 +5,7 @@
 class Base:
     """
     Base class for all other classes in the project.
-    This class manages the id attribute for all future classes and 
+    This class manages the id attribute for all future classes and
     avoids duplicating the same code (and by extension, the same bugs).
     """
 
