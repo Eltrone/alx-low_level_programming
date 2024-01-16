@@ -80,7 +80,7 @@ class Base:
             return []
 
         return json.loads(json_string)
-    
+
     @classmethod
     def create(cls, **dictionary):
         """
@@ -90,12 +90,12 @@ class Base:
             **dictionary (dict): A dictionary with attribute names and values.
 
         Returns:
-            instance: An instance of the class with attributes set based on the dictionary.
+            instance: class with attributes set based on the dictionary.
         """
         if cls.__name__ == "Rectangle":
-            dummy_instance = cls(1, 1)  # Create a "dummy" instance of Rectangle
+            dummy_instance = cls(1, 1)
         elif cls.__name__ == "Square":
-            dummy_instance = cls(1)  # Create a "dummy" instance of Square
+            dummy_instance = cls(1)
 
-        dummy_instance.update(**dictionary)  # Update the "dummy" instance with real values
+        dummy_instance.update(**dictionary)
         return dummy_instance
