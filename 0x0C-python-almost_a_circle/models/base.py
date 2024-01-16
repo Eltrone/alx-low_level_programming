@@ -120,18 +120,18 @@ class Base:
         except FileNotFoundError:
             return []  # Return an empty list if the file doesn't exist
 
-            @classmethod
-def save_to_file_csv(cls, list_objs):
-    """
-    Serialize instances to CSV file.
+    @classmethod
+    def save_to_file_csv(cls, list_objs):
+        """
+        Serialize instances to CSV file.
 
-    Args:
-        list_objs (list): A list of instances to serialize.
-    """
-    filename = cls.__name__ + ".csv"
-    with open(filename, "w") as file:
-        if list_objs is None:
-            file.write("")
+        Args:
+            list_objs (list): A list of instances to serialize.
+        """
+        filename = cls.__name__ + ".csv"
+        with open(filename, "w") as file:
+            if list_objs is None:
+                file.write("")
         else:
             if cls.__name__ == "Rectangle":
                 header = "id,width,height,x,y\n"
@@ -142,40 +142,40 @@ def save_to_file_csv(cls, list_objs):
                 obj_data = [str(getattr(obj, attr)) for attr in obj.get_attributes()]
                 file.write(",".join(obj_data) + "\n")
 
-@classmethod
-def load_from_file_csv(cls):
-    """
-    Deserialize instances from CSV file.
+    @classmethod
+    def load_from_file_csv(cls):
+        """
+        Deserialize instances from CSV file.
 
-    Returns:
-        list: A list of instances created from the CSV file.
-    """
-    filename = cls.__name__ + ".csv"
-    instance_list = []
-    try:
-        with open(filename, "r") as file:
-            header = file.readline().strip()
-            if not header:
-                return instance_list
-            for line in file:
-                data = line.strip().split(",")
-                if cls.__name__ == "Rectangle":
-                    obj_data = {
-                        "id": int(data[0]),
-                        "width": int(data[1]),
-                        "height": int(data[2]),
-                        "x": int(data[3]),
-                        "y": int(data[4])
-                    }
-                elif cls.__name__ == "Square":
-                    obj_data = {
-                        "id": int(data[0]),
-                        "size": int(data[1]),
-                        "x": int(data[2]),
-                        "y": int(data[3])
-                    }
-                instance = cls.create(**obj_data)
-                instance_list.append(instance)
-    except FileNotFoundError:
-        pass
-    return instance_list
+        Returns:
+            list: A list of instances created from the CSV file.
+        """
+        filename = cls.__name__ + ".csv"
+        instance_list = []
+        try:
+            with open(filename, "r") as file:
+                header = file.readline().strip()
+                if not header:
+                    return instance_list
+                for line in file:
+                    data = line.strip().split(",")
+                    if cls.__name__ == "Rectangle":
+                        obj_data = {
+                            "id": int(data[0]),
+                            "width": int(data[1]),
+                            "height": int(data[2]),
+                            "x": int(data[3]),
+                            "y": int(data[4])
+                        }
+                    elif cls.__name__ == "Square":
+                        obj_data = {
+                            "id": int(data[0]),
+                            "size": int(data[1]),
+                            "x": int(data[2]),
+                            "y": int(data[3])
+                        }
+                    instance = cls.create(**obj_data)
+                    instance_list.append(instance)
+        except FileNotFoundError:
+            pass
+        return instance_list
