@@ -17,7 +17,7 @@ class Base:
         Initializes the Base instance.
 
         Args:
-            id (int, optional): The instance id. If None auto-generated
+            id (int, optional): instance id. If None auto-generated
             id is assigned using the private __nb_objects attribute.
         """
         if id is not None:
@@ -50,7 +50,7 @@ class Base:
         Writes the JSON string representation of list_objs to a file.
 
         Args:
-            list_objs (list): A list of instances that inherit from Base.
+            list_objs (list): instances list that inherit from Base.
 
         """
         import json
@@ -85,13 +85,13 @@ class Base:
     @classmethod
     def create(cls, **dictionary):
         """
-        Creates and returns an instance with all attributes already set.
+        Creates and returns instance with all attributes already set.
 
         Args:
-            **dictionary (dict): A dictionary with attribute names and values.
+            **dictionary (dict): dictionary with attribute names values.
 
         Returns:
-            instance: class with attributes set based on the dictionary.
+            instance: class with attributes set based on dictionary.
         """
         if cls.__name__ == "Rectangle":
             dummy_instance = cls(1, 1)
@@ -119,7 +119,7 @@ class Base:
                 instance_list = [cls.create(**d) for d in dict_list]
                 return instance_list
         except FileNotFoundError:
-            return []  # Return an empty list if the file doesn't exist
+            return []
 
     @classmethod
     def save_to_file_csv(cls, list_objs):
@@ -135,7 +135,10 @@ class Base:
                 list_objs = []
 
             for obj in list_objs:
-                csv_data = ",".join(str(getattr(obj, field)) for field in fields)
+                csv_data_elements = []
+                for field in fields:
+                    csv_data_elements.append(str(getattr(obj, field)))
+                csv_data = ",".join(csv_data_elements)
                 file.write(csv_data + "\n")
 
     @classmethod
@@ -149,7 +152,9 @@ class Base:
                     line = line.strip()
                     if line:
                         data = line.split(",")
-                        obj_data = {field: int(data[i]) for i, field in enumerate(fields)}
+                        obj_data = {}
+                            for i, field in enumerate(fields):
+                            obj_data[field] = int(data[i])
                         instance = cls.create(**obj_data)
                         instance_list.append(instance)
                 return instance_list
@@ -158,7 +163,7 @@ class Base:
 
     @staticmethod
     def draw(list_rectangles, list_squares):
-        """Draw Rectangles and Squares using the Turtle graphics module."""
+        """Draw Rectangles and Squares using Turtle graphics module."""
         window = turtle.Screen()
         window.title("Rectangle and Square Drawing")
 
@@ -167,12 +172,12 @@ class Base:
             pen.up()
             pen.goto(rect.x, rect.y)  # Assume x, y are the coordinates
             pen.down()
-            pen.color("black")  # Vous pouvez changer la couleur ici
+            pen.color("black")
 
             for _ in range(2):
-                pen.forward(rect.width)  # Assume width attribute for Rectangle
+                pen.forward(rect.width)
                 pen.left(90)
-                pen.forward(rect.height)  # Assume height for Rectangle, size for Square
+                pen.forward(rect.height)
                 pen.left(90)
 
             pen.hideturtle()
