@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """ Module base.py: Defines the Base class for all models. """
+import turtle
 
 
 class Base:
@@ -154,3 +155,26 @@ class Base:
                 return instance_list
         except FileNotFoundError:
             return []  # Return an empty list if the file doesn't exist
+
+    @staticmethod
+    def draw(list_rectangles, list_squares):
+        """Draw Rectangles and Squares using the Turtle graphics module."""
+        window = turtle.Screen()
+        window.title("Rectangle and Square Drawing")
+
+        for rect in list_rectangles + list_squares:
+            pen = turtle.Turtle()
+            pen.up()
+            pen.goto(rect.x, rect.y)  # Assume x, y are the coordinates
+            pen.down()
+            pen.color("black")  # Vous pouvez changer la couleur ici
+
+            for _ in range(2):
+                pen.forward(rect.width)  # Assume width attribute for Rectangle
+                pen.left(90)
+                pen.forward(rect.height)  # Assume height for Rectangle, size for Square
+                pen.left(90)
+
+            pen.hideturtle()
+
+        window.mainloop()
