@@ -122,62 +122,35 @@ class Base:
 
     @classmethod
     def save_to_file_csv(cls, list_objs):
-        """
-        Serialize instances to CSV file.
-
-        Args:
-            list_objs (list): A list of instances to serialize.
-        """
+        """ Serialize instances to a CSV file. """
         filename = cls.__name__ + ".csv"
-        with open(filename, "w") as file:
-            if list_objs is None:
-                file.write("")
-        else:
+        with open(filename, mode="w", encoding="utf-8") as file:
             if cls.__name__ == "Rectangle":
-                header = "id,width,height,x,y\n"
+                fields = ["id", "width", "height", "x", "y"]
             elif cls.__name__ == "Square":
-                header = "id,size,x,y\n"
-            file.write(header)
+                fields = ["id", "size", "x", "y"]
+
+            if list_objs is None:
+                list_objs = []
+
             for obj in list_objs:
-                attributes = [(attr, getattr(obj, attr)) for attr in obj.get_attributes()]
-                obj_data = [f"{name}:{value}" for name, value in attributes]
-                obj_data_str = ",".join(obj_data)
-                file.write(obj_data_str + "\n")
+                csv_data = ",".join(str(getattr(obj, field)) for field in fields)
+                file.write(csv_data + "\n")
 
     @classmethod
     def load_from_file_csv(cls):
-        """
-        Deserialize instances from CSV file.
-
-        Returns:
-            list: A list of instances created from the CSV file.
-        """
+        """ Deserialize instances from a CSV file. """
         filename = cls.__name__ + ".csv"
-        instance_list = []
         try:
-            with open(filename, "r") as file:
-                header = file.readline().strip()
-                if not header:
-                    return instance_list
+            with open(filename, mode="r", encoding="utf-8") as file:
+                instance_list = []
                 for line in file:
-                    data = line.strip().split(",")
-                    if cls.__name__ == "Rectangle":
-                        obj_data = {
-                            "id": int(data[0]),
-                            "width": int(data[1]),
-                            "height": int(data[2]),
-                            "x": int(data[3]),
-                            "y": int(data[4])
-                        }
-                    elif cls.__name__ == "Square":
-                        obj_data = {
-                            "id": int(data[0]),
-                            "size": int(data[1]),
-                            "x": int(data[2]),
-                            "y": int(data[3])
-                        }
-                    instance = cls.create(**obj_data)
-                    instance_list.append(instance)
+                    line = line.strip()
+                    if line:
+                        data = line.split(",")
+                        obj_data = {field: int(data[i]) for i, field in enumerate(fields)}
+                        instance = cls.create(**obj_data)
+                        instance_list.append(instance)
+                return instance_list
         except FileNotFoundError:
-            pass
-        return instance_list
+            return []  # Return an empty list if the file doesn't exist
