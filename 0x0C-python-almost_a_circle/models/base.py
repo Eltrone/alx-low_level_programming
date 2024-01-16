@@ -139,8 +139,10 @@ class Base:
                 header = "id,size,x,y\n"
             file.write(header)
             for obj in list_objs:
-                obj_data = [str(getattr(obj, attr)) for attr in obj.get_attributes()]
-                file.write(",".join(obj_data) + "\n")
+                attributes = [(attr, getattr(obj, attr)) for attr in obj.get_attributes()]
+                obj_data = [f"{name}:{value}" for name, value in attributes]
+                obj_data_str = ",".join(obj_data)
+                file.write(obj_data_str + "\n")
 
     @classmethod
     def load_from_file_csv(cls):
