@@ -153,7 +153,7 @@ class Base:
                     if line:
                         data = line.split(",")
                         obj_data = {}
-                            for i, field in enumerate(fields):
+                        for i, field in enumerate(fields):
                             obj_data[field] = int(data[i])
                         instance = cls.create(**obj_data)
                         instance_list.append(instance)
