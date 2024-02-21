@@ -3,6 +3,7 @@
 Module pour calculer le périmètre d'une île dans une grille
 """
 
+
 def island_perimeter(grid):
     """
     Retourne le périmètre de l'île décrite dans grid
