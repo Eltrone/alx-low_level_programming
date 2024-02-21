@@ -1,0 +1,23 @@
+# Makefile avec dépendances automatiques pour les fichiers objets
+
+# Compilateur
+CC = gcc
+# Fichiers sources
+SRC = main.c school.c
+# Fichiers objets
+OBJ = $(SRC:.c=.o)
+# Nom de l'exécutable
+NAME = school
+
+all: $(NAME)
+
+$(NAME): $(OBJ)
+	$(CC) $(OBJ) -o $(NAME)
+
+%.o: %.c
+	$(CC) -c $< -o $@
+
+clean:
+	rm -f $(OBJ) $(NAME)
+
+.PHONY: all clean
