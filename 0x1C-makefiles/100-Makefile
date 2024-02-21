@@ -1,0 +1,36 @@
+# Makefile avancé pour le projet 'school'
+
+# Nom de l'exécutable
+NAME := school
+# Compilateur
+CC := gcc
+# Fichiers sources
+SRC := $(wildcard *.c)
+# Fichiers objets
+OBJ := $(SRC:.c=.o)
+# Commande pour supprimer des fichiers, non définie directement pour respecter les contraintes
+# Drapeaux du compilateur
+CFLAGS := -Wall -Werror -Wextra -pedantic
+
+# Règle par défaut
+all: $(NAME)
+
+# Compilation conditionnelle des fichiers objets et de l'exécutable
+$(NAME): $(SRC) m.h
+	$(CC) $(CFLAGS) $(SRC) -o $(NAME)
+
+# Nettoyage des fichiers temporaires et de l'exécutable
+clean:
+	/bin/rm -f *~ 
+
+oclean:
+	/bin/rm -f $(OBJ)
+
+fclean: clean oclean
+	/bin/rm -f $(NAME)
+
+# Forcer la recompilation
+re: fclean all
+
+# Empêcher make de confondre les noms de règles avec des fichiers existants
+.PHONY: all clean fclean oclean re
