@@ -1,36 +1,28 @@
-# Makefile avancé qui respecte des contraintes spécifiques
+# Définition des variables pour le projet
+SRC = main.c school.c         # Fichiers source
+OBJ = $(SRC:.c=.o)            # Génération automatique des noms de fichiers objets à partir des fichiers source
+CC = gcc                      # Le compilateur à utiliser
+NAME = school                 # Nom de l'exécutable final
+CFLAGS = -Wall -Werror -Wextra -pedantic  # Drapeaux de compilation pour gcc
 
-NAME := school
-CC := gcc
-SRC := $(wildcard *.c)
-OBJ := $(SRC:.c=.o)
-CFLAGS := -Wall -Werror -Wextra -pedantic
+# Déclaration des cibles qui ne correspondent pas à des fichiers réels
+.PHONY: all clean oclean fclean re
 
-# Règle principale pour construire l'exécutable
-all: $(NAME)
-
-# Compilation de l'exécutable sans utiliser directement $(CFLAGS) ni $(CC) plus d'une fois
-$(NAME): $(OBJ)
+# Cible principale pour construire l'exécutable
+all: m.h $(OBJ)
 	$(CC) $(OBJ) -o $(NAME)
 
-# Compilation des fichiers objets sans définir une règle %.o: %.c
-$(SRC:.c=.o): $(SRC) m.h
-	$(CC) -c $(SRC)
-
-# Nettoyage des fichiers temporaires
+# Cible pour nettoyer les fichiers temporaires et l'exécutable
 clean:
-	/bin/rm -f *~ 
+	$(RM) *~ $(NAME)
 
-# Suppression des fichiers objets
+# Cible pour supprimer uniquement les fichiers objets
 oclean:
-	/bin/rm -f $(OBJ)
+	$(RM) $(OBJ)
 
-# Nettoyage complet: fichiers temporaires, exécutables et objets
+# Cible pour un nettoyage complet, incluant les fichiers temporaires, objets et l'exécutable
 fclean: clean oclean
-	/bin/rm -f $(NAME)
 
-# Forcer la recompilation de tout
+# Cible pour forcer la recompilation complète du projet
 re: fclean all
 
-# Déclarations pour éviter les conflits avec des fichiers du même nom
-.PHONY: all clean fclean oclean re
