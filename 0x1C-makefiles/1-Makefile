@@ -1,0 +1,12 @@
+# Makefile avec variables pour le compilateur et les fichiers sources
+
+# Le compilateur à utiliser
+CC = gcc
+# Les fichiers sources à compiler
+SRC = main.c school.c
+
+# Nom de l'exécutable
+NAME = school
+
+all:
+	$(CC) $(SRC) -o $(NAME)
