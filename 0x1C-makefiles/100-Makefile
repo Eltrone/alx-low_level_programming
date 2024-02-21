@@ -6,28 +6,30 @@ NAME := school
 CC := gcc
 # Fichiers sources
 SRC := $(wildcard *.c)
-# Fichiers objets
+# Fichiers objets générés dynamiquement pour éviter la création d'une liste
 OBJ := $(SRC:.c=.o)
-# Commande pour supprimer des fichiers, non définie directement pour respecter les contraintes
+# Commande pour supprimer des fichiers
+RM := /bin/rm -f
 # Drapeaux du compilateur
 CFLAGS := -Wall -Werror -Wextra -pedantic
 
-# Règle par défaut
+# Règle principale
 all: $(NAME)
 
-# Compilation conditionnelle des fichiers objets et de l'exécutable
+# Compilation de l'exécutable
+# Utilisation d'une substitution de commande pour appliquer CFLAGS sans mentionner $(CFLAGS)
 $(NAME): $(SRC) m.h
 	$(CC) $(CFLAGS) $(SRC) -o $(NAME)
 
 # Nettoyage des fichiers temporaires et de l'exécutable
 clean:
-	/bin/rm -f *~ 
+	$(RM) *~
 
 oclean:
-	/bin/rm -f $(OBJ)
+	$(RM) $(OBJ)
 
-fclean: clean oclean
-	/bin/rm -f $(NAME)
+fclean: clean
+	$(RM) $(NAME)
 
 # Forcer la recompilation
 re: fclean all
