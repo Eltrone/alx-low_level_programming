@@ -1,28 +1,33 @@
 # Définition des variables pour le projet
-SRC = main.c school.c         # Fichiers source
-OBJ = $(SRC:.c=.o)            # Génération automatique des noms de fichiers objets à partir des fichiers source
-CC = gcc                      # Le compilateur à utiliser
-NAME = school                 # Nom de l'exécutable final
-CFLAGS = -Wall -Werror -Wextra -pedantic  # Drapeaux de compilation pour gcc
+SRC = main.c school.c            # Fichiers source
+OBJ = $(SRC:.c=.o)               # Conversion des fichiers .c en .o
+CC = gcc                         # Le compilateur à utiliser
+NAME = school                    # Nom de l'exécutable final
+CFLAGS = -Wall -Werror -Wextra -pedantic  # Drapeaux de compilation
 
 # Déclaration des cibles qui ne correspondent pas à des fichiers réels
 .PHONY: all clean oclean fclean re
 
 # Cible principale pour construire l'exécutable
-all: m.h $(OBJ)
-	$(CC) $(OBJ) -o $(NAME)
+all: $(NAME)
+
+$(NAME): $(OBJ) m.h
+	@$(CC) $(OBJ) -o $(NAME) $(CFLAGS)
+
+# Compilation des fichiers objets, sans définir une règle explicite pour $(OBJ)
+%.o: %.c
+	@$(CC) -c $< -o $@ $(CFLAGS)
 
 # Cible pour nettoyer les fichiers temporaires et l'exécutable
 clean:
-	$(RM) *~ $(NAME)
+	@rm -f *~ $(NAME)
 
 # Cible pour supprimer uniquement les fichiers objets
 oclean:
-	$(RM) $(OBJ)
+	@rm -f $(OBJ)
 
 # Cible pour un nettoyage complet, incluant les fichiers temporaires, objets et l'exécutable
 fclean: clean oclean
 
 # Cible pour forcer la recompilation complète du projet
 re: fclean all
-
