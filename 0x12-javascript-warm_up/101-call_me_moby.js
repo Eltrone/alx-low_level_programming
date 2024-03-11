@@ -6,4 +6,4 @@ function callMeMoby(times, theFunction) {
   }
 }
 
-callMeMoby(3, () => console.log("C is fun"));
+callMeMoby(3, () => console.log('C is fun'));

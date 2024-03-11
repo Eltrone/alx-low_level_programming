@@ -5,4 +5,4 @@ function addMeMaybe(number, theFunction) {
   theFunction(number);
 }
 
-addMeMaybe(4, (nb) => console.log("Nouvelle valeur : " + nb));
+addMeMaybe(4, (nb) => console.log('New value : ' + nb));
