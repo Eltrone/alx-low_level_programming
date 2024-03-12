@@ -1,7 +1,7 @@
 #!/usr/bin/node
 const { dict } = require('./101-data.js');
 
-let sortedDict = {};
+const sortedDict = {};
 
 Object.entries(dict).forEach(([key, value]) => {
   if (!sortedDict[value]) {
