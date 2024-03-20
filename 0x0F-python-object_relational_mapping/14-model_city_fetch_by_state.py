@@ -1,26 +1,33 @@
-from model_state import Base, State
-from model_city import City
+#!/usr/bin/python3
+"""Fetch cities by state"""
+
+import sys
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-import sys
+from model_state import Base, State
+from model_city import City
+
 
 if __name__ == "__main__":
-    # Create the engine to connect to the MySQL database
+    username = sys.argv[1]
+    password = sys.argv[2]
+    db_name = sys.argv[3]
+
+    # Create the connection to the database
     engine = create_engine('mysql+mysqldb://{}:{}@localhost/{}'
-                           .format(sys.argv[1], sys.argv[2], sys.argv[3]),
+                           .format(username, password, db_name),
                            pool_pre_ping=True)
 
-    # Create a configured "Session" class
+    # Create the session
     Session = sessionmaker(bind=engine)
-
-    # Create a Session
     session = Session()
 
-    # Query to get all City objects
-    cities = session.query(City).\
-        order_by(City.id).\
-        all()
+    # Query to fetch cities by state
+    cities = session.query(State.name, City.id, City.name)\
+                    .join(City, State.id == City.state_id)\
+                    .order_by(City.id)\
+                    .all()
 
     # Display the results
     for city in cities:
-        print("{}: ({}) {}".format(city.state.name, city.id, city.name))
+        print("{}: ({}) {}".format(city[0], city[1], city[2]))
