@@ -29,7 +29,7 @@ if __name__ == "__main__":
     # Fetch all the rows in a list of lists.
     query_rows = cur.fetchall()
     for row in query_rows:
-        if row[1][0] == 'N':  # Additional check to avoid potential issues with case sensitivity
+        if row[1][0] == 'N':
             print(row)
 
     # Close cursor and connection
