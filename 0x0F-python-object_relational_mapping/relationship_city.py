@@ -2,7 +2,6 @@
 """City module"""
 
 from sqlalchemy import Column, Integer, String, ForeignKey
-from sqlalchemy.orm import relationship
 from relationship_state import Base
 
 
