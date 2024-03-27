@@ -5,17 +5,21 @@ def find_peak(list_of_integers):
     Find a peak in a list of unsorted integers
     Trouve un pic dans une liste d'entiers non triés
     """
-    if not list_of_integers:
+
+    if list_of_integers == []:
         return None
 
-    def peak_helper(start, end, nums):
-        if start == end:
-            return nums[start]
+    a = len(list_of_integers)
+    if a == 1:
+        return list_of_integers[0]
+    if a == 2:
+        return max(list_of_integers)
 
-        mid = (start + end) // 2
-        if nums[mid] < nums[mid + 1]:
-            return peak_helper(mid + 1, end, nums)
-        else:
-            return peak_helper(start, mid, nums)
-
-    return peak_helper(0, len(list_of_integers) - 1, list_of_integers)
+    mid = int(a / 2)
+    peak = list_of_integers[mid]
+    if peak > list_of_integers[mid - 1] and peak > list_of_integers[mid + 1]:
+        return peak
+    if peak < list_of_integers[mid - 1]:
+        return find_peak(list_of_integers[:mid])
+    else:
+        return find_peak(list_of_integers[mid:])
