@@ -1,25 +1,27 @@
 #!/usr/bin/python3
 
-
 def find_peak(list_of_integers):
     """
     Fonction qui trouve un pic dans une liste d'entiers non triés.
-    Un pic est un élément plus grand ou égal à ses voisins.
+    Un pic est un élément qui est plus grand ou égal à ses voisins.
     """
-    if not list_of_integers:
+    n = len(list_of_integers)
+    # Cas de base
+    if n == 0:
         return None
-
-    low = 0
-    high = len(list_of_integers) - 1
-
-    while low <= high:
-        mid = (low + high) // 2
-        if (mid == 0 or list_of_integers[mid - 1] <= list_of_integers[mid]) and \
-           (mid == len(list_of_integers) - 1 or list_of_integers[mid + 1] <= list_of_integers[mid]):
-            return list_of_integers[mid]
-        elif mid > 0 and list_of_integers[mid - 1] > list_of_integers[mid]:
-            high = mid - 1
-        else:
-            low = mid + 1
-
-    return None
+    if n == 1:
+        return list_of_integers[0]
+    if n == 2:
+        return max(list_of_integers)
+    
+    mid = n // 2
+    # Vérification si l'élément milieu est un pic
+    if (mid == 0 or list_of_integers[mid] >= list_of_integers[mid - 1]) and \
+       (mid == n - 1 or list_of_integers[mid] >= list_of_integers[mid + 1]):
+        return list_of_integers[mid]
+    # Si le pic est potentiellement à gauche
+    elif mid > 0 and list_of_integers[mid - 1] > list_of_integers[mid]:
+        return find_peak(list_of_integers[:mid])
+    # Si le pic est potentiellement à droite
+    else:
+        return find_peak(list_of_integers[mid + 1:])
