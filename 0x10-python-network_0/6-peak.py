@@ -1,4 +1,6 @@
 #!/usr/bin/python3
+
+
 def find_peak(list_of_integers):
     """
     Fonction qui trouve un pic dans une liste d'entiers non triés.
@@ -12,14 +14,11 @@ def find_peak(list_of_integers):
 
     while low <= high:
         mid = (low + high) // 2
-        # Si mid est un pic
         if (mid == 0 or list_of_integers[mid - 1] <= list_of_integers[mid]) and \
            (mid == len(list_of_integers) - 1 or list_of_integers[mid + 1] <= list_of_integers[mid]):
             return list_of_integers[mid]
-        # Si le pic est à gauche
         elif mid > 0 and list_of_integers[mid - 1] > list_of_integers[mid]:
             high = mid - 1
-        # Si le pic est à droite
         else:
             low = mid + 1
 
