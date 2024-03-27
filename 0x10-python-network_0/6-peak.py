@@ -2,26 +2,33 @@
 
 def find_peak(list_of_integers):
     """
-    Fonction qui trouve un pic dans une liste d'entiers non triés.
-    Un pic est un élément qui est plus grand ou égal à ses voisins.
+    Find a peak in a list of unsorted integers
+    Trouve un pic dans une liste d'entiers non triés
     """
-    n = len(list_of_integers)
-    # Cas de base
-    if n == 0:
+    # Vérifie si la liste est vide
+    if not list_of_integers:
         return None
-    if n == 1:
-        return list_of_integers[0]
-    if n == 2:
-        return max(list_of_integers)
+
+    length = len(list_of_integers)
     
-    mid = n // 2
-    # Vérification si l'élément milieu est un pic
-    if (mid == 0 or list_of_integers[mid] >= list_of_integers[mid - 1]) and \
-       (mid == n - 1 or list_of_integers[mid] >= list_of_integers[mid + 1]):
-        return list_of_integers[mid]
-    # Si le pic est potentiellement à gauche
-    elif mid > 0 and list_of_integers[mid - 1] > list_of_integers[mid]:
-        return find_peak(list_of_integers[:mid])
-    # Si le pic est potentiellement à droite
+    # Si la liste contient un seul élément, retourne cet élément
+    if length == 1:
+        return list_of_integers[0]
+    
+    # Si la liste contient deux éléments, retourne le maximum
+    if length == 2:
+        return max(list_of_integers)
+
+    # Trouve l'indice médian de la liste
+    mid_index = length // 2
+    mid_value = list_of_integers[mid_index]
+
+    # Vérifie si l'élément au milieu est un pic
+    if mid_value > list_of_integers[mid_index - 1] and mid_value > list_of_integers[mid_index + 1]:
+        return mid_value
+    # Si l'élément à gauche est plus grand, recherche dans la partie gauche
+    elif mid_value < list_of_integers[mid_index - 1]:
+        return find_peak(list_of_integers[:mid_index])
+    # Sinon, recherche dans la partie droite
     else:
-        return find_peak(list_of_integers[mid + 1:])
+        return find_peak(list_of_integers[mid_index + 1:])
