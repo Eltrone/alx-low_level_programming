@@ -13,12 +13,14 @@ if __name__ == "__main__":
 
     url = 'http://0.0.0.0:5000/search_user'
     data = {'q': q}
-    
+
     try:
         response = requests.post(url, data=data)
         json_response = response.json()
         if json_response:
-            print(f"[{json_response.get('id')}] {json_response.get('name')}")
+            id = json_response.get('id')
+            name = json_response.get('name')
+            print(f"[{id}] {name}")
         else:
             print("No result")
     except ValueError:
