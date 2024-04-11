@@ -12,51 +12,43 @@
  * Return: The first index where value is located,
  * or -1 if value is not present in array or if array is NULL
  */
+
 int jump_search(int *array, size_t size, int value)
 {
     size_t jump = sqrt(size);
     size_t prev = 0;
-    size_t step = jump;
+    size_t left, right, i;
 
     if (!array)
         return (-1);
 
-    /* Finding the block where element is present (if it is present) */
-    while (array[min(step, size) - 1] < value)
+    while (prev < size && array[prev] < value)
     {
         printf("Value checked array[%ld] = [%d]\n", prev, array[prev]);
-        prev = step;
-        step += jump;
-        if (prev >= size)
-            return (-1);
+        prev += jump;
+        if (prev >= size || array[prev] >= value)
+            break;
     }
 
-    /* Doing a linear search for value in block beginning with prev */
-    printf("Value found between indexes [%ld] and [%ld]\n", prev, step);
-    while (array[prev] < value)
-    {
-        printf("Value checked array[%ld] = [%d]\n", prev, array[prev]);
-        prev++;
-        if (prev == min(step, size))
-            return (-1);
-    }
+    left = prev < jump ? 0 : prev - jump;
+    right = prev < size ? prev : size - 1;
 
-    /* If element is found */
-    if (array[prev] == value)
+    printf("Value found between indexes [%ld] and [%ld]\n", left, right);
+    for (i = left; i <= right && i < size; i++)
     {
-        printf("Value checked array[%ld] = [%d]\n", prev, array[prev]);
-        return prev;
+        printf("Value checked array[%ld] = [%d]\n", i, array[i]);
+        if (array[i] == value)
+            return (int)i;
     }
 
     return (-1);
 }
 
 /**
- * min - Returns the minimum of two size_t values
- * @a: The first value
- * @b: The second value
- *
- * Return: The minimum value
+ * min - Calculates the minimum of two size_t values
+ * @a: first value
+ * @b: second value
+ * Return: the smaller of a and b
  */
 size_t min(size_t a, size_t b)
 {
